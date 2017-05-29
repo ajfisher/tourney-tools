@@ -12,5 +12,9 @@
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "swaggerize-express": "^4.0.5"
+  },
+  "devDependencies": {
+    "generator-swaggerize": "^3.1.0",
+    "swagmock": "git://github.com/ajfisher/swagmock.git#xformat"
   }
 }

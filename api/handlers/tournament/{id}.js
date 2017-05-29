@@ -1,22 +1,29 @@
 'use strict';
-
-const tournaments = require('../../../data/tournaments.js').tournaments;
-
+var dataProvider = require('../../data/tournament/{id}.js');
+/**
+ * Operations on /tournament/{id}
+ */
 module.exports = {
-
-    get: (req, res) => {
-
-        res.type('application/json');
-
-        let tournament = tournaments.findById(req.params['id']);
-        if (typeof(tournament) == 'undefined') {
-            res.status(404).json({
-                error: "Tournament not found"
-            });
-        } else {
-            res.json(tournaments.findById(req.params['id']));
-        }
-    },
-
-}
-
+    /**
+     * summary: Returns the specific tournament
+     * description: 
+     * parameters: id
+     * produces: 
+     * responses: 200
+     */
+    get: function getTournamentByID(req, res, next) {
+        /**
+         * Get the data for response 200
+         * For response `default` status 200 is used.
+         */
+        var status = 200;
+        var provider = dataProvider['get']['200'];
+        provider(req, res, function (err, data) {
+            if (err) {
+                next(err);
+                return;
+            }
+            res.status(status).send(data && data.responses);
+        });
+    }
+};

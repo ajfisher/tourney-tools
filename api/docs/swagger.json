@@ -99,7 +99,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "id"
+          "x-format": "hash"
         }
       }
     },
@@ -108,7 +108,7 @@
       "properties": {
         "key": {
           "type": "string",
-          "format": "key ID",
+          "x-format": "hash",
           "description": "Key used to allow admin to the tournament"
         },
         "name": {
@@ -117,11 +117,12 @@
         },
         "date": {
           "type": "string",
-          "format": "datetime",
+          "format": "date-time",
           "description": "Date the tournament is taking place"
         },
         "official": {
           "type": "string",
+		  "x-format": "name",
           "description": "Person who is officiating the tournament."
         }
       }
