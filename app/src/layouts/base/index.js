@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
 
-import { tournaments } from '../../data/tournaments';
-
 import CreateTournament from '../../layouts/createTournament/';
 import Tournament from '../../layouts/tournament/';
 
@@ -23,7 +21,6 @@ class Base extends Component {
     // level template and view routing
 
     render() {
-        const tournamentlist = tournaments.tournaments;
         return (
             <main className="main">
                 <header className="app-header">
@@ -41,7 +38,7 @@ class Base extends Component {
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route path="/about" component={About} />
-                    <Route path="/tournament/create" component={CreateTournament} />
+                    <Route exact path="/tournament/create" component={CreateTournament} />
                     <Route path="/tournament/:id" component={Tournament} />
                 </Switch>
                 <footer>
