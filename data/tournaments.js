@@ -52,6 +52,8 @@ const teams = [
     },
 ];
 
+tournaments[0].teams = teams;
+
 module.exports = {
     tournaments: tournaments,
     teams: teams,
