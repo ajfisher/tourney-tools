@@ -30,16 +30,6 @@ class Base extends Component {
         return (
             <main className="main">
                 <header className="app-header">
-                    <p className="logo">
-                        <Link to="/">Logo</Link>
-                    </p>
-                    <nav className="nav">
-                        <ul>
-                            <li><Link to="/">Home</Link></li>
-                            <li><Link to="/about">About</Link></li>
-                            <li><Link to="/tournament/create">Create Tournament</Link></li>
-                        </ul>
-                    </nav>
                     <Menu stackable>
                         <Menu.Item name="Home" href="/" active={activeItem === 'home'} />
                         <Menu.Item name="About" href="/about" />
@@ -63,12 +53,6 @@ class Base extends Component {
                 <footer>
                     <p>Footer info</p>
                 </footer>
-                <ul className="tournaments">
-
-                    <li key="123">Tournament name</li>
-                    <li key="456">Tournament name</li>
-
-                </ul>
             </main>
         );
     }
