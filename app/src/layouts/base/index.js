@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Link } from 'react-router-dom';
+import { Button, Menu } from 'semantic-ui-react';
 
 import CreateTournament from '../../layouts/createTournament/';
 import Tournament from '../../layouts/tournament/';
@@ -20,7 +21,12 @@ class Base extends Component {
     // this is the base structure for the entire app and provides the top
     // level template and view routing
 
+    state = {};
+
     render() {
+
+        const {activeItem} = this.state;
+
         return (
             <main className="main">
                 <header className="app-header">
@@ -34,6 +40,19 @@ class Base extends Component {
                             <li><Link to="/tournament/create">Create Tournament</Link></li>
                         </ul>
                     </nav>
+                    <Menu stackable>
+                        <Menu.Item name="Home" href="/" active={activeItem === 'home'} />
+                        <Menu.Item name="About" href="/about" />
+
+                        <Menu.Menu position="right">
+                            <Menu.Item>
+                                <Button primary href="/tournament/create">
+                                    Create Tournament
+                                </Button>
+                            </Menu.Item>
+                        </Menu.Menu>
+                    </Menu>
+
                 </header>
                 <Switch>
                     <Route exact path="/" component={Home} />

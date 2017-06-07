@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Card, Icon} from 'semantic-ui-react'
 
 class TeamList extends Component {
 
@@ -9,7 +10,14 @@ class TeamList extends Component {
             <div className="teamlist">
                 {
                     this.props.teams.map((team, index) => {
-                        return <p key={index}>Team: {team.name}</p>
+                        return (
+                            <Card key={index}>
+                                <Card.Content header>
+                                    <Icon name="users" />
+                                    {team.name}
+                                </Card.Content>
+                            </Card>
+                        );
                     })
                 }
                 <p>This is a team list</p>
