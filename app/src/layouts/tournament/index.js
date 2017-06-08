@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Container, Header } from 'semantic-ui-react';
 
 import TeamList from '../../components/teamlist';
+import Preliminary from '../../components/prelim';
 
 import { tournaments } from '../../data/tournaments';
 
@@ -20,21 +22,31 @@ class Tournament extends Component {
         // if good, start populating information
         if (this.state == null) {
             return (
-                <section className="NotFound">
+                <Container className="NotFound">
                     <p>This tournament cannot be found</p>
-                </section>
+                </Container>
             );
         }
 
         return (
-            <section className="tournament">
-                <h2>{ this.state.name }</h2>
-                <p>Tournament ID: { this.state.id }, Official: { this.state.official } , Date: { this.state.date }</p>
-                <TeamList teams={this.state.teams} />
-                <p>Pool list</p>
+            <Container fluid className="tournament">
+                <Header as='h1'>{ this.state.name }</Header>
+
+                <Preliminary pools={this.state.pools} tournament={this.state}/>
                 <p>Elimination info</p>
-                <p>Leaderboard</p>
-            </section>
+                <Container className="supplementary" as="aside">
+                    <Header as="h2">Date</Header>
+                    <p>{ this.state.date }</p>
+
+                    <Header as="h2">Organised by</Header>
+                    <p>{ this.state.official }</p>
+
+                    <p>
+                        Tournament ID: { this.state.id },
+                    </p>
+
+                </Container>
+            </Container>
         );
     }
 }

@@ -12,7 +12,7 @@ class TeamList extends Component {
                     this.props.teams.map((team, index) => {
                         return (
                             <Card key={index}>
-                                <Card.Content header>
+                                <Card.Content>
                                     <Icon name="users" />
                                     {team.name}
                                 </Card.Content>

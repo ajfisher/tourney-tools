@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { Button, Menu } from 'semantic-ui-react';
 
 import CreateTournament from '../../layouts/createTournament/';
