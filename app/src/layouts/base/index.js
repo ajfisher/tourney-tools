@@ -28,7 +28,7 @@ class Base extends Component {
         const {activeItem} = this.state;
 
         return (
-            <main className="main">
+            <main>
                 <header className="app-header">
                     <Menu stackable>
                         <Menu.Item name="Home" href="/" active={activeItem === 'home'} />

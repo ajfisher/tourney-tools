@@ -29,12 +29,14 @@ class Tournament extends Component {
         }
 
         return (
-            <Container fluid className="tournament">
-                <Header as='h1'>{ this.state.name }</Header>
+            <Container fluid className="main">
+                <Container fluid className="tournament" as="section">
+                    <Header as='h1'>{ this.state.name }</Header>
 
-                <Preliminary pools={this.state.pools} tournament={this.state}/>
-                <p>Elimination info</p>
-                <Container className="supplementary" as="aside">
+                    <Preliminary pools={this.state.pools} tournament={this.state}/>
+                    <p>Elimination info</p>
+                </Container>
+                <Container fluid className="supplementary" as="aside">
                     <Header as="h2">Date</Header>
                     <p>{ this.state.date }</p>
 

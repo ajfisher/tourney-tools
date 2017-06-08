@@ -34,6 +34,12 @@ class Preliminary extends Component {
     render () {
         const { active_panel, active_pool, teams } = this.state;
 
+        // set up the panels for selection
+        const panels = {
+            'leaderboard' : <Leaderboard teams={teams} />,
+            'fixture': <p>ficture</p>,
+        };
+
         return (
             <Container fluid as="section" className="prelims">
                 <Menu pointing secondary>
@@ -58,7 +64,8 @@ class Preliminary extends Component {
                         onClick={this.handleItemClick} />
                 </Menu>
 
-                <Leaderboard teams={ teams } />
+                { panels[active_panel] }
+
             </Container>
         );
     }

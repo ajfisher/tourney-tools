@@ -7,7 +7,7 @@ let tournaments = [
         id: "abcdef",
         key: "ABC123",
         official: "Andrew Fisher",
-        name: "Test Tourney",
+        name: "Test Tournament amongst peeps",
         date: "20170527",
     },
 ];
