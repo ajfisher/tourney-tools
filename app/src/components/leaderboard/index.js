@@ -1,51 +1,60 @@
+import _ from 'lodash';
+
 import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react'
-
-import matches from '../../data/matches.js';
 
 class Leaderboard extends Component {
 
     render () {
 
-        console.log(matches);
-        const { teams } = this.props;
+        const { teams, standings } = this.props;
 
         return (
-            <Table>
+            <Table singleLine celled unstackable>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell collapsing></Table.HeaderCell>
                         <Table.HeaderCell collapsing>Team</Table.HeaderCell>
-                        <Table.HeaderCell>M</Table.HeaderCell>
-                        <Table.HeaderCell>W</Table.HeaderCell>
-                        <Table.HeaderCell>L</Table.HeaderCell>
-                        <Table.HeaderCell>D</Table.HeaderCell>
-                        <Table.HeaderCell>Pts</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="center">M</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="center">W</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="center">L</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="center">D</Table.HeaderCell>
+                        <Table.HeaderCell textAlign="center">Pts</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
                     {
-                        teams.map((id, index) => {
+                        standings.map((teamdata, index) => {
+
+                            let team = _.find(teams, {'id': teamdata.id});
 
                             return (
                                 <Table.Row key={index}>
                                     <Table.Cell>{ index + 1 }</Table.Cell>
-                                    <Table.Cell>{ id }</Table.Cell>
-                                    <Table.Cell>3</Table.Cell>
-                                    <Table.Cell>1</Table.Cell>
-                                    <Table.Cell>2</Table.Cell>
-                                    <Table.Cell>0</Table.Cell>
-                                    <Table.Cell>3</Table.Cell>
+                                    <Table.Cell>{ team.name }</Table.Cell>
+                                    <Table.Cell textAlign="center">
+                                        { teamdata.matches }
+                                    </Table.Cell>
+                                    <Table.Cell textAlign="center">
+                                        { teamdata.wins }
+                                    </Table.Cell>
+                                    <Table.Cell textAlign="center">
+                                        { teamdata.losses }
+                                    </Table.Cell>
+                                    <Table.Cell textAlign="center">
+                                        { teamdata.draws }
+                                    </Table.Cell>
+                                    <Table.Cell textAlign="center">
+                                        { teamdata.points }
+                                    </Table.Cell>
                                 </Table.Row>
                             );
                         })
                     }
                 </Table.Body>
             </Table>
-
         )
-
     }
 }
 

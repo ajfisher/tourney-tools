@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { Container, Grid, Header } from 'semantic-ui-react';
 
-import TeamList from '../../components/teamlist';
 import Preliminary from '../../components/prelim';
 
 import { tournaments } from '../../data/tournaments';
+import  matches  from '../../data/matches';
 
 class Tournament extends Component {
     // sets up the Tournament layout
 
-    //const tournamentlist = tournaments.tournaments;
     constructor(props) {
         super(props);
         const id = props.match.params.id;
-        this.state = tournaments.findById(id);
+
+        let tournament = tournaments.findById(id);
+        tournament.pool_matches = matches;
+        this.state = tournament;
     }
 
     render() {
@@ -33,7 +35,9 @@ class Tournament extends Component {
                 <Grid.Column className="tournament" as="section" width={11}>
                     <Header as='h1'>{ this.state.name }</Header>
 
-                    <Preliminary pools={this.state.pools} tournament={this.state}/>
+                    <Preliminary pools={this.state.pools}
+                        tournament={this.state}
+                        matches={this.state.pool_matches} />
                     <p>Elimination info</p>
                 </Grid.Column>
                 <Grid.Column className="supplementary" as="aside" width={5}>

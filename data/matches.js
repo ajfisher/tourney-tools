@@ -30,9 +30,10 @@ pools.forEach((pool) => {
                 pool: pool.id,
                 teams: [teams[i], teams[j]],
                 result: {
-                    resulted: "outstanding",
+                    resulted: false,
                     win: null,
                     lose: null,
+                    draw: null,
                 },
             };
 
