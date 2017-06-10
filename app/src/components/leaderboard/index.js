@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react'
 
+import matches from '../../data/matches.js';
+
 class Leaderboard extends Component {
 
     render () {
 
+        console.log(matches);
         const { teams } = this.props;
 
         return (
@@ -27,7 +30,7 @@ class Leaderboard extends Component {
 
                             return (
                                 <Table.Row key={index}>
-                                    <Table.Cell>{ index }</Table.Cell>
+                                    <Table.Cell>{ index + 1 }</Table.Cell>
                                     <Table.Cell>{ id }</Table.Cell>
                                     <Table.Cell>3</Table.Cell>
                                     <Table.Cell>1</Table.Cell>
