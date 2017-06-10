@@ -1,7 +1,9 @@
 import _ from 'lodash';
 
 import React, { Component } from 'react';
-import { Button, Card } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
+
+import Result from '../result';
 
 class Fixture extends Component {
 
@@ -14,6 +16,48 @@ class Fixture extends Component {
         };
     };
 
+    // we do this to create a closure and return a function to the
+    // handler in the object, which will allow a call later.
+    //handle_result_click = (match) => (e) => {
+    //    const result_modal = <Result match={ this.state.matches } />;
+
+    //    result_modal.render('show');
+    //    console.log(result_modal);
+    //};
+
+    handle_win_result = (result) => {
+
+        // TODO - make call to the API to update the data
+
+        let matches = this.state.matches;
+        let index = _.findIndex(matches, {'id': result.match_id});
+        let match = matches[index];
+        match.result.resulted = true;
+        match.result.win = result.winner_id;
+        match.result.lose = result.loser_id;
+
+        matches[index] = match;
+
+        this.setState({matches: matches});
+
+        this.props.onHandleResult(match);
+    }
+
+    handle_draw_result = (match_id) => {
+
+        // get  the match
+        let matches = this.state.matches;
+        let index = _.findIndex(matches, {'id': match_id});
+        let match = matches[index];
+        match.result.resulted = true;
+        match.result.draw = true;
+
+        matches[index] = match;
+
+        this.setState({matches: matches});
+        this.props.onHandleResult(match);
+    }
+
     render () {
         const { teams, matches } = this.state;
 
@@ -24,9 +68,10 @@ class Fixture extends Component {
 
                         let result = "";
 
-                        let team_a = _.find(teams, {'id': match.teams[0]});
-                        let team_b = _.find(teams, {'id': match.teams[1]});
+                        const team_a = _.find(teams, {'id': match.teams[0]});
+                        const team_b = _.find(teams, {'id': match.teams[1]});
 
+                        //console.log(match);
                         if (match.result.resulted) {
                             if (match.result.draw) {
                                 result = "Draw";
@@ -45,6 +90,7 @@ class Fixture extends Component {
                         } else {
                             result = "Awaiting result";
                         }
+
                         return (
                             <Card key={ match.id } className="fixture">
                                 <Card.Content>
@@ -55,11 +101,13 @@ class Fixture extends Component {
                                         { result }
                                     </Card.Meta>
                                     <Card.Description>
-                                        <Button basic >
-                                            Record result
-                                        </Button>
+                                        <Result
+                                            match={ match }
+                                            teamA={ team_a } teamB={team_b}
+                                            onWinResult={ this.handle_win_result }
+                                            onDrawResult={ this.handle_draw_result }
+                                        />
                                     </Card.Description>
-
                                 </Card.Content>
                             </Card>
                         );

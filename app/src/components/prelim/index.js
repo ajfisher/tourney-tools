@@ -59,21 +59,21 @@ class Preliminary extends Component {
                 id: team.id,
                 matches: matches.length,
                 wins: _.reduce(matches, (result, value) => {
-                    if (value.results.win === team.id) {
+                    if (value.result.win === team.id) {
                         return result + 1;
                     } else {
                         return result;
                     }
                 }, 0),
                 losses: _.reduce(matches, (result, value) => {
-                    if (value.results.loss === team.id) {
+                    if (value.result.loss === team.id) {
                         return result + 1;
                     } else {
                         return result;
                     }
                 }, 0),
                 draws: _.reduce(matches, (result, value) => {
-                    if (value.results.draw) {
+                    if (value.result.draw) {
                         return result + 1;
                     } else {
                         return result;
@@ -89,7 +89,7 @@ class Preliminary extends Component {
         });
 
         // now sort the table.
-        standings = _.sortBy(standings, ['points',]);
+        standings = _.orderBy(standings, 'points', 'desc');
 
         return standings;
     };
@@ -108,6 +108,18 @@ class Preliminary extends Component {
         });
     };
 
+    handleResult = (match) => {
+
+        let matches = this.state.matches;
+        let index = _.find(matches, {'id': match.id});
+        matches[index] = match;
+
+        this.setState({
+            matches: matches,
+            standings: this.calculate_standings(this.state.teams, matches),
+        });
+
+    };
 
     render () {
         const { active_panel, active_pool, teams, matches, standings } = this.state;
@@ -115,7 +127,9 @@ class Preliminary extends Component {
         // set up the panels for selection
         const panels = {
             'leaderboard' : <Leaderboard teams={teams} standings={standings} />,
-            'fixture': <Fixture teams={teams} matches={matches} />,
+            'fixture': <Fixture teams={teams}
+                            matches={matches}
+                            onHandleResult={ this.handleResult } />,
         };
 
         return (
