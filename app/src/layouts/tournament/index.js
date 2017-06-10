@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Grid, Header } from 'semantic-ui-react';
 
 import TeamList from '../../components/teamlist';
 import Preliminary from '../../components/prelim';
@@ -29,14 +29,14 @@ class Tournament extends Component {
         }
 
         return (
-            <Container fluid className="main">
-                <Container fluid className="tournament" as="section">
+            <Grid stackable columns={2} padded className="main">
+                <Grid.Column className="tournament" as="section" width={11}>
                     <Header as='h1'>{ this.state.name }</Header>
 
                     <Preliminary pools={this.state.pools} tournament={this.state}/>
                     <p>Elimination info</p>
-                </Container>
-                <Container fluid className="supplementary" as="aside">
+                </Grid.Column>
+                <Grid.Column className="supplementary" as="aside" width={5}>
                     <Header as="h2">Date</Header>
                     <p>{ this.state.date }</p>
 
@@ -47,8 +47,8 @@ class Tournament extends Component {
                         Tournament ID: { this.state.id },
                     </p>
 
-                </Container>
-            </Container>
+                </Grid.Column>
+            </Grid>
         );
     }
 }
