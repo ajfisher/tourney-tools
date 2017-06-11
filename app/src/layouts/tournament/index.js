@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 import React, { Component } from 'react';
-import { Container, Grid, Header } from 'semantic-ui-react';
+import { Container, Grid, Header, Statistic } from 'semantic-ui-react';
 
 import Preliminary from '../../components/prelim';
 
-import { load_state } from '../../lib/localstorage.js'
+import { load_state, save_state } from '../../lib/localstorage.js'
 
 // get data
 import { tournaments } from '../../data/tournaments';
@@ -39,7 +39,11 @@ class Tournament extends Component {
         let matches = this.state.pool_matches;
         let index = _.findIndex(matches, {'id': match.id});
         matches[index] = match;
+
         this.setState({pool_matches: matches});
+
+        // save the data to localstorage for later usage.
+        save_state(this.state.id, this.state);
     };
 
     render() {
@@ -76,6 +80,30 @@ class Tournament extends Component {
                     <p>
                         Tournament ID: { this.state.id }
                     </p>
+                    <section className="stats">
+                        <Header as="h2">Matches complete</Header>
+                        <Statistic.Group>
+                            {
+                                this.state.pools.map((pool, index) => {
+                                    const name = `Pool ${String.fromCharCode(65+index)}`;
+                                    const matches = this.state.pool_matches;
+                                    const p_matches = _.filter(matches, {'pool': pool.id});
+                                    const resulted = _.reduce(p_matches, (result, value) => {
+                                        return result + (value.result.resulted ? 1 : 0);
+                                    }, 0);
+                                    return (
+                                        <Statistic key={pool.id}>
+                                            <Statistic.Value>
+                                                { resulted } / { p_matches.length }
+                                            </Statistic.Value>
+                                            <Statistic.Label>{ name }</Statistic.Label>
+                                        </Statistic>
+                                    )
+                                })
+                            }
+                        </Statistic.Group>
+
+                    </section>
 
                 </Grid.Column>
             </Grid>
