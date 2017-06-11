@@ -11,19 +11,13 @@ class Fixture extends Component {
         super(props);
 
         this.state = {
-            teams: props.teams,
             matches: props.matches,
         };
+
     };
 
     // we do this to create a closure and return a function to the
     // handler in the object, which will allow a call later.
-    //handle_result_click = (match) => (e) => {
-    //    const result_modal = <Result match={ this.state.matches } />;
-
-    //    result_modal.render('show');
-    //    console.log(result_modal);
-    //};
 
     handle_win_result = (result) => {
 
@@ -58,8 +52,18 @@ class Fixture extends Component {
         this.props.onHandleResult(match);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.teams !== this.props.teams) {
+            this.setState({
+                matches: nextProps.matches,
+            });
+        }
+    };
+
+
     render () {
-        const { teams, matches } = this.state;
+        const { matches } = this.state;
+        const { teams } = this.props;
 
         return (
             <Card.Group stackable itemsPerRow="3">

@@ -100,12 +100,14 @@ class Preliminary extends Component {
         // load the various teams from the pool now.
 
         let pooldata = this.get_pool_data(id);
+
         this.setState({
             active_pool: id,
             teams: pooldata.teams,
             matches: pooldata.matches,
             standings: pooldata.standings,
         });
+
     };
 
     handleResult = (match) => {
@@ -125,11 +127,13 @@ class Preliminary extends Component {
         const { active_panel, active_pool, teams, matches, standings } = this.state;
 
         // set up the panels for selection
-        const panels = {
-            'leaderboard' : <Leaderboard teams={teams} standings={standings} />,
-            'fixture': <Fixture teams={teams}
+        let panel = null;
+        if (active_panel === 'leaderboard') {
+            panel =  <Leaderboard teams={teams} standings={standings} />;
+        } else {
+            panel = <Fixture teams={teams}
                             matches={matches}
-                            onHandleResult={ this.handleResult } />,
+                            onHandleResult={ this.handleResult } />;
         };
 
         return (
@@ -156,7 +160,7 @@ class Preliminary extends Component {
                         onClick={this.handleItemClick} />
                 </Menu>
 
-                { panels[active_panel] }
+                { panel }
 
             </Container>
         );
