@@ -48,7 +48,7 @@ class Tournament extends Component {
                     <p>{ this.state.official }</p>
 
                     <p>
-                        Tournament ID: { this.state.id },
+                        Tournament ID: { this.state.id }
                     </p>
 
                 </Grid.Column>

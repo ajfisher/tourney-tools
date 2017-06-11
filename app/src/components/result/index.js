@@ -40,12 +40,14 @@ class Result extends Component {
         const team_a = this.props.teamA;
         const team_b = this.props.teamB;
 
+        const trigger_text = this.props.match.result.resulted ? "Update result" : "Record result";
+
         return (
             <Modal
                 dimmer="blurring"
                 open={this.state.open}
                 trigger={
-                        <Button basic fluid onClick={this.handle_open}>Record result</Button>
+                        <Button basic fluid onClick={this.handle_open}>{ trigger_text }</Button>
                 }
                 onClose={this.handle_close}
             >

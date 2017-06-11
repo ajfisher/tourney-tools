@@ -62,7 +62,7 @@ class Fixture extends Component {
         const { teams, matches } = this.state;
 
         return (
-            <Card.Group>
+            <Card.Group stackable itemsPerRow="3">
                 {
                     matches.map((match) => {
 
@@ -91,8 +91,11 @@ class Fixture extends Component {
                             result = "Awaiting result";
                         }
 
+                        const card_colour = match.result.resulted ? 'green' : 'red';
+
                         return (
-                            <Card key={ match.id } className="fixture">
+                            <Card key={ match.id } className="fixture"
+                                color={card_colour}>
                                 <Card.Content>
                                     <Card.Header>
                                         { team_a.name } v { team_b.name }
