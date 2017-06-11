@@ -13,12 +13,10 @@ class Fixture extends Component {
         this.state = {
             matches: props.matches,
         };
-
     };
 
     // we do this to create a closure and return a function to the
     // handler in the object, which will allow a call later.
-
     handle_win_result = (result) => {
 
         // TODO - make call to the API to update the data
@@ -34,7 +32,7 @@ class Fixture extends Component {
 
         this.setState({matches: matches});
 
-        this.props.onHandleResult(match);
+        this.props.onResult(match);
     }
 
     handle_draw_result = (match_id) => {
@@ -48,7 +46,7 @@ class Fixture extends Component {
 
         matches[index] = match;
 
-        this.setState({matches: matches});
+        //this.setState({matches: matches});
         this.props.onHandleResult(match);
     }
 
@@ -75,7 +73,6 @@ class Fixture extends Component {
                         const team_a = _.find(teams, {'id': match.teams[0]});
                         const team_b = _.find(teams, {'id': match.teams[1]});
 
-                        //console.log(match);
                         if (match.result.resulted) {
                             if (match.result.draw) {
                                 result = "Draw";

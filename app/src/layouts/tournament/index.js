@@ -1,8 +1,13 @@
+import _ from 'lodash';
+
 import React, { Component } from 'react';
 import { Container, Grid, Header } from 'semantic-ui-react';
 
 import Preliminary from '../../components/prelim';
 
+import { load_state } from '../../lib/localstorage.js'
+
+// get data
 import { tournaments } from '../../data/tournaments';
 import  matches  from '../../data/matches';
 
@@ -13,10 +18,29 @@ class Tournament extends Component {
         super(props);
         const id = props.match.params.id;
 
-        let tournament = tournaments.findById(id);
-        tournament.pool_matches = matches;
-        this.state = tournament;
-    }
+        const loaded_data = load_state(id);
+        console.log(loaded_data);
+        // try to get data from localstorage first
+        if (loaded_data) {
+            console.log("Loading from state");
+            this.state = loaded_data;
+        } else {
+            console.log("Loading from data file");
+            let tournament = tournaments.findById(id);
+            tournament.pool_matches = matches;
+            this.state = tournament;
+        }
+    };
+
+    handleResult = (match) => {
+        // this occurs when a result gets posted so we want to update the
+        // results of the matches.
+
+        let matches = this.state.pool_matches;
+        let index = _.findIndex(matches, {'id': match.id});
+        matches[index] = match;
+        this.setState({pool_matches: matches});
+    };
 
     render() {
         console.log(this.state);
@@ -35,9 +59,11 @@ class Tournament extends Component {
                 <Grid.Column className="tournament" as="section" width={11}>
                     <Header as='h1'>{ this.state.name }</Header>
 
-                    <Preliminary pools={this.state.pools}
-                        tournament={this.state}
-                        matches={this.state.pool_matches} />
+                    <Preliminary pools={ this.state.pools }
+                        tournament={ this.state }
+                        matches={ this.state.pool_matches }
+                        onResult={ this.handleResult }
+                    />
                     <p>Elimination info</p>
                 </Grid.Column>
                 <Grid.Column className="supplementary" as="aside" width={5}>

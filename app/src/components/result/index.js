@@ -10,13 +10,9 @@ class Result extends Component {
         };
     };
 
-    handle_open = (e) => {
-        this.setState({ open: true });
-    };
+    handle_open = (e) => this.setState({ open: true });
 
-    handle_close = (e, data) => {
-        this.setState({ open: false });
-    };
+    handle_close = (e, data) => this.setState({ open: false });
 
     handle_win = (winner) => (e) => {
 
@@ -27,6 +23,7 @@ class Result extends Component {
             winner_id: winner.id,
             loser_id: loser.id,
         });
+
         this.setState({ open:false });
     };
 
@@ -75,8 +72,6 @@ class Result extends Component {
             </Modal>
         );
     };
-
 }
 
 export default Result;
-

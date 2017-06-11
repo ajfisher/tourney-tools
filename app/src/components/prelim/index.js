@@ -11,29 +11,23 @@ class Preliminary extends Component {
 
     constructor(props) {
         super(props);
-        // update to the first on when we make the overall component
-        //
-        let pooldata = this.get_pool_data(props.pools[0].id);
 
+        // if this is new then set to the first pool
         this.state = {
             active_pool: props.pools[0].id,
             active_panel: 'leaderboard',
-            teams: pooldata.teams,
-            matches: pooldata.matches,
-            standings: pooldata.standings,
         };
     };
 
-    get_pool_data(id) {
-        // gets the data for a respective pool
-        //
-        let teamids = _.find(this.props.pools, {'id': id}).teams;
+    get_pool_data(pool_id) {
+        // gets the data for the supplied pool
+
+        let teamids = _.find(this.props.pools, {'id': pool_id}).teams;
         let teamlist = _.filter(this.props.tournament.teams, (team) => {
             return teamids.includes(team.id);
         });
 
-        let matchlist = _.filter(this.props.matches, {'pool': id});
-
+        let matchlist = _.filter(this.props.matches, {'pool': pool_id});
         let standings = this.calculate_standings(teamlist, matchlist);
 
         return ( {
@@ -44,7 +38,7 @@ class Preliminary extends Component {
     };
 
     calculate_standings(teamlist, matchlist) {
-        // takes a list of teams the matches and then composes the current
+        // takes a list of teams and matches and then composes the current
         // team standings.
 
         let standings = []; // this will end up as an ordered team list
@@ -66,7 +60,7 @@ class Preliminary extends Component {
                     }
                 }, 0),
                 losses: _.reduce(matches, (result, value) => {
-                    if (value.result.loss === team.id) {
+                    if (value.result.lose === team.id) {
                         return result + 1;
                     } else {
                         return result;
@@ -88,43 +82,23 @@ class Preliminary extends Component {
             return teamdata;
         });
 
-        // now sort the table.
+        // now sort the standings array and send it back
         standings = _.orderBy(standings, 'points', 'desc');
 
         return standings;
     };
 
-    handleItemClick = (e, { name }) => this.setState({active_panel: name });
+    // handle the menu clicks between pools and the fixture / leaderboard panel
+    handlePanelClick = (e, { name }) => this.setState({active_panel: name });
+    handlePoolClick = (e, { id }) => this.setState({ active_pool: id });
 
-    handlePoolClick = (e, { id }) => {
-        // load the various teams from the pool now.
-
-        let pooldata = this.get_pool_data(id);
-
-        this.setState({
-            active_pool: id,
-            teams: pooldata.teams,
-            matches: pooldata.matches,
-            standings: pooldata.standings,
-        });
-
-    };
-
-    handleResult = (match) => {
-
-        let matches = this.state.matches;
-        let index = _.find(matches, {'id': match.id});
-        matches[index] = match;
-
-        this.setState({
-            matches: matches,
-            standings: this.calculate_standings(this.state.teams, matches),
-        });
-
-    };
+    // passes back to the tournament to update the result details
+    handleResult = (match) => this.props.onResult(match);
 
     render () {
-        const { active_panel, active_pool, teams, matches, standings } = this.state;
+
+        const { active_panel, active_pool } = this.state;
+        const { teams, matches, standings } = this.get_pool_data(active_pool);
 
         // set up the panels for selection
         let panel = null;
@@ -132,8 +106,8 @@ class Preliminary extends Component {
             panel =  <Leaderboard teams={teams} standings={standings} />;
         } else {
             panel = <Fixture teams={teams}
-                            matches={matches}
-                            onHandleResult={ this.handleResult } />;
+                    matches={matches}
+                    onResult={ this.handleResult } />;
         };
 
         return (
@@ -154,10 +128,10 @@ class Preliminary extends Component {
                 <Menu pointing>
                     <Menu.Item name='leaderboard'
                         active={active_panel === 'leaderboard'}
-                        onClick={this.handleItemClick} />
+                        onClick={this.handlePanelClick} />
                     <Menu.Item name='fixture'
                         active={active_panel === 'fixture'}
-                        onClick={this.handleItemClick} />
+                        onClick={this.handlePanelClick} />
                 </Menu>
 
                 { panel }
@@ -165,8 +139,6 @@ class Preliminary extends Component {
             </Container>
         );
     }
-
 }
 
 export default Preliminary;
-
