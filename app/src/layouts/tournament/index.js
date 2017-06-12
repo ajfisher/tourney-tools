@@ -50,6 +50,18 @@ class Tournament extends Component {
         save_state(this.state.id, this.state);
     };
 
+    handleTeamChange = (team) => {
+        // update the state with the change of the team data
+        let teams = this.state.teams;
+        let teamindex = _.findIndex(teams, {id: team.id});
+        teams[teamindex] = team;
+
+        this.setState({teams: teams});
+
+        save_state(this.state.id, this.state);
+        //TODO CALL API to update here.
+    }
+
     render() {
         console.log(this.state);
 
@@ -97,7 +109,10 @@ class Tournament extends Component {
                         //
                     }
                     <Header as="h3">Teams</Header>
-                    <TeamList teams={ this.state.teams } />
+                    <TeamList
+                        teams={ this.state.teams }
+                        onTeamChange={ this.handleTeamChange }
+                    />
 
                     <section className="stats">
                         <Header as="h3">Matches complete</Header>
