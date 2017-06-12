@@ -3,14 +3,18 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Container, Grid, Header, Statistic } from 'semantic-ui-react';
 
-import Preliminary from '../../components/prelim';
+// get custom components
 import DateFormat from '../../components/date';
+import Preliminary from '../../components/prelim';
+import TeamList from '../../components/teamlist';
 
+// get custom libs
 import { load_state, save_state } from '../../lib/localstorage.js'
 
 // get data
 import { tournaments } from '../../data/tournaments';
 import  matches  from '../../data/matches';
+
 
 class Tournament extends Component {
     // sets up the Tournament layout
@@ -20,7 +24,6 @@ class Tournament extends Component {
         const id = props.match.params.id;
 
         const loaded_data = load_state(id);
-        console.log(loaded_data);
         // try to get data from localstorage first
         if (loaded_data) {
             console.log("Loading from state");
@@ -92,10 +95,10 @@ class Tournament extends Component {
                         // clicked on which will trigger a modal with the
                         // details and allow them to be edited.
                         //
-                        // don't forget to remove item from the prelim leaderboard
-                        // where the click was happening.
                     }
-                    <p>Team List )) </p>
+                    <Header as="h3">Teams</Header>
+                    <TeamList teams={ this.state.teams } />
+
                     <section className="stats">
                         <Header as="h3">Matches complete</Header>
                         <Statistic.Group>
