@@ -5,6 +5,13 @@ import { Table } from 'semantic-ui-react'
 
 class Leaderboard extends Component {
 
+    handleTeamClick = (teamdata) => (e) => {
+        console.log("team click");
+        console.log(teamdata);
+
+        // TODO add a point here that can trigger the open state of the modal
+    };
+
     render () {
 
         const { teams, standings } = this.props;
@@ -30,7 +37,7 @@ class Leaderboard extends Component {
                             let team = _.find(teams, {'id': teamdata.id});
 
                             return (
-                                <Table.Row key={index}>
+                                <Table.Row key={index} onClick={ this.handleTeamClick(team) }>
                                     <Table.Cell>{ index + 1 }</Table.Cell>
                                     <Table.Cell>{ team.name }</Table.Cell>
                                     <Table.Cell textAlign="center">
@@ -48,6 +55,13 @@ class Leaderboard extends Component {
                                     <Table.Cell textAlign="center">
                                         { teamdata.points }
                                     </Table.Cell>
+                                    {
+                                    // add a teamview component which is a modal
+                                    // and has a prop to determine it being open or not
+                                    // Actually don't do this - we'll move to a list
+                                    // that is on the actual RHS of the screen.
+                                    // in an accordion
+                                    }
                                 </Table.Row>
                             );
                         })

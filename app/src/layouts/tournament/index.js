@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Container, Grid, Header, Statistic } from 'semantic-ui-react';
 
 import Preliminary from '../../components/prelim';
+import DateFormat from '../../components/date';
 
 import { load_state, save_state } from '../../lib/localstorage.js'
 
@@ -71,17 +72,32 @@ class Tournament extends Component {
                     <p>Elimination info</p>
                 </Grid.Column>
                 <Grid.Column className="supplementary" as="aside" width={5}>
-                    <Header as="h2">Date</Header>
-                    <p>{ this.state.date }</p>
+                    <Header as="h3">
+                        <DateFormat date={ this.state.date } />
+                        <Header.Subheader>
+                            Tournament date
+                        </Header.Subheader>
+                    </Header>
 
-                    <Header as="h2">Organised by</Header>
-                    <p>{ this.state.official }</p>
+                    <Header as="h3">
+                        { this.state.official }
+                        <Header.Subheader>
+                            Organiser
+                        </Header.Subheader>
+                    </Header>
 
-                    <p>
-                        Tournament ID: { this.state.id }
-                    </p>
+                    {
+                        // TODO Make a teams section which can open out
+                        // with a list of all teams and each team can be
+                        // clicked on which will trigger a modal with the
+                        // details and allow them to be edited.
+                        //
+                        // don't forget to remove item from the prelim leaderboard
+                        // where the click was happening.
+                    }
+                    <p>Team List )) </p>
                     <section className="stats">
-                        <Header as="h2">Matches complete</Header>
+                        <Header as="h3">Matches complete</Header>
                         <Statistic.Group>
                             {
                                 this.state.pools.map((pool, index) => {
