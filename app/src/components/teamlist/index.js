@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Table} from 'semantic-ui-react'
 
-import TeamDetails from '../team';
+import TeamDetails, { TeamSwatch } from '../team';
 
 class TeamList extends Component {
 
@@ -59,6 +59,7 @@ class TeamList extends Component {
                                     <Table.Row key={index}
                                         onClick={ this.handle_open(index) } >
                                         <Table.Cell>
+                                            <TeamSwatch name={team.name} />
                                             {team.name}
                                         </Table.Cell>
                                     </Table.Row>

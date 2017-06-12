@@ -4,6 +4,19 @@ import { Button, Container, Grid, Header, Icon, Image, Input, List, Segment } fr
 
 import GeoPattern from 'geopattern';
 
+export class TeamSwatch extends Component {
+
+    render() {
+
+        const { name } = this.props;
+        const avatar = GeoPattern.generate(name);
+
+        return (
+            <Image avatar bordered src={ avatar.toDataUri() } />
+        )
+    }
+}
+
 class TeamName extends Component {
     // TODO make the team name editable
 
@@ -65,13 +78,9 @@ class TeamMember extends Component {
 
     render() {
 
-        const { name } = this.props;
-
-        const avatar = GeoPattern.generate(name);
-
         return (
             <List.Item>
-                <Image avatar src={avatar.toDataUri()} />
+                <TeamSwatch name={ this.props.name }/>
                 <List.Content>
                     <List.Header as="span">
                         { this.name_widget() }
@@ -195,9 +204,8 @@ class TeamDetails extends Component {
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Image size="medium" floated="right"
-                                        src={ GeoPattern.generate(team.name,
-                                                { generator: 'plaid'}
-                                            ).toDataUri() }/>
+                                        src={ GeoPattern.generate(team.name).toDataUri() }
+                                    />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

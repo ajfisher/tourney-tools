@@ -3,6 +3,8 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Table } from 'semantic-ui-react'
 
+import { TeamSwatch } from '../team';
+
 class Leaderboard extends Component {
 
     render () {
@@ -32,7 +34,10 @@ class Leaderboard extends Component {
                             return (
                                 <Table.Row key={index}>
                                     <Table.Cell>{ index + 1 }</Table.Cell>
-                                    <Table.Cell>{ team.name }</Table.Cell>
+                                    <Table.Cell>
+                                        <TeamSwatch name={team.name} />
+                                        { team.name }
+                                    </Table.Cell>
                                     <Table.Cell textAlign="center">
                                         { teamdata.matches }
                                     </Table.Cell>

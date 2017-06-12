@@ -1,9 +1,10 @@
 import _ from 'lodash';
 
 import React, { Component } from 'react';
-import { Card } from 'semantic-ui-react'
+import { Card, Container } from 'semantic-ui-react'
 
 import Result from '../result';
+import { TeamSwatch } from '../team';
 
 class Fixture extends Component {
 
@@ -64,7 +65,7 @@ class Fixture extends Component {
         const { teams } = this.props;
 
         return (
-            <Card.Group stackable itemsPerRow="3">
+            <Card.Group stackable itemsPerRow="2">
                 {
                     matches.map((match) => {
 
@@ -99,10 +100,16 @@ class Fixture extends Component {
                                 color={card_colour}>
                                 <Card.Content>
                                     <Card.Header>
-                                        { team_a.name } v { team_b.name }
+                                        <Container textAlign="center">
+                                            <TeamSwatch name={ team_a.name } /> 
+                                            { team_a.name } vs { team_b.name } 
+                                            <TeamSwatch name={ team_b.name } />
+                                        </Container>
                                     </Card.Header>
                                     <Card.Meta>
-                                        { result }
+                                        <Container textAlign="center">
+                                            Result: { result }
+                                        </Container>
                                     </Card.Meta>
                                     <Card.Description>
                                         <Result
