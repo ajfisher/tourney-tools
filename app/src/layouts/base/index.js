@@ -48,6 +48,7 @@ class Base extends Component {
                     <Route exact path="/" component={Home} />
                     <Route path="/about" component={About} />
                     <Route exact path="/tournament/create" component={CreateTournament} />
+                    <Route path="/tournament/:id" component={Tournament} />
                     <Route path="/tournament/:id/*" component={Tournament} />
                 </Switch>
                 <footer>
