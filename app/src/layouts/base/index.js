@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Button, Menu } from 'semantic-ui-react';
+import { Button, Container, Menu } from 'semantic-ui-react';
 
 import CreateTournament from '../../layouts/createTournament/';
 import Tournament from '../../layouts/tournament/';
@@ -51,9 +51,9 @@ class Base extends Component {
                     <Route path="/tournament/:id" component={Tournament} />
                     <Route path="/tournament/:id/*" component={Tournament} />
                 </Switch>
-                <footer>
-                    <p>Footer info</p>
-                </footer>
+                <Container as="footer" textAlign="center">
+                    <p>&copy; 2017 ajfisher</p>
+                </Container>
             </main>
         );
     }

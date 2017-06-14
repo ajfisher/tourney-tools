@@ -28,6 +28,7 @@ pools.forEach((pool) => {
             let match = {
                 id: uuid(),
                 pool: pool.id,
+                determined: true,
                 teams: [teams[i], teams[j]],
                 result: {
                     resulted: false,

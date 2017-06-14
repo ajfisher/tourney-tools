@@ -14,6 +14,8 @@ class Fixture extends Component {
         this.state = {
             matches: props.matches,
         };
+
+        console.log(this.state);
     };
 
     // we do this to create a closure and return a function to the
@@ -62,17 +64,32 @@ class Fixture extends Component {
 
     render () {
         const { matches } = this.state;
-        const { teams } = this.props;
+        const { teams, finalType } = this.props;
+
+        let fixtures_per_row = 2;
+        if (finalType === 'final') {
+            fixtures_per_row = 1;
+        }
 
         return (
-            <Card.Group stackable itemsPerRow="2">
+            <Card.Group stackable itemsPerRow={ fixtures_per_row }>
                 {
                     matches.map((match) => {
 
                         let result = "";
 
-                        const team_a = _.find(teams, {'id': match.teams[0]});
-                        const team_b = _.find(teams, {'id': match.teams[1]});
+                        let team_a, team_b;
+
+                        let match_determined = match.determined || match.teams[0];
+
+                        if (match_determined) {
+
+                            team_a = _.find(teams, {'id': match.teams[0]});
+                            team_b = _.find(teams, {'id': match.teams[1]});
+                        } else {
+                            team_a = { name: match.placeholder[0] };
+                            team_b = { name: match.placeholder[1] };
+                        }
 
                         if (match.result.resulted) {
                             if (match.result.draw) {
@@ -95,6 +112,16 @@ class Fixture extends Component {
 
                         const card_colour = match.result.resulted ? 'green' : 'red';
 
+                        let record_result = null;
+                        if (match_determined) {
+                            record_result = <Result
+                                        match={ match }
+                                        teamA={ team_a } teamB={team_b}
+                                        onWinResult={ this.handle_win_result }
+                                        onDrawResult={ this.handle_draw_result }
+                                     />
+                        }
+
                         return (
                             <Card key={ match.id } className="fixture"
                                 color={card_colour}>
@@ -102,7 +129,7 @@ class Fixture extends Component {
                                     <Card.Header>
                                         <Container textAlign="center">
                                             <TeamSwatch name={ team_a.name } /> 
-                                            { team_a.name } vs { team_b.name } 
+                                            { team_a.name } vs { team_b.name }
                                             <TeamSwatch name={ team_b.name } />
                                         </Container>
                                     </Card.Header>
@@ -112,12 +139,7 @@ class Fixture extends Component {
                                         </Container>
                                     </Card.Meta>
                                     <Card.Description>
-                                        <Result
-                                            match={ match }
-                                            teamA={ team_a } teamB={team_b}
-                                            onWinResult={ this.handle_win_result }
-                                            onDrawResult={ this.handle_draw_result }
-                                        />
+                                        { record_result }
                                     </Card.Description>
                                 </Card.Content>
                             </Card>
@@ -126,9 +148,7 @@ class Fixture extends Component {
                 }
             </Card.Group>
         );
-
     };
-
 }
 
 export default Fixture;

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import {Container, Menu } from 'semantic-ui-react'
+import {Container, Header, Menu } from 'semantic-ui-react'
 
 import Fixture from '../fixture';
 import Leaderboard from '../leaderboard';
@@ -112,6 +112,7 @@ class Preliminary extends Component {
 
         return (
             <Container fluid as="section" className="prelims">
+                <Header as="h2">Preliminary Rounds</Header>
                 <Menu pointing secondary>
                     {
                         this.props.pools.map((pool, index) => {

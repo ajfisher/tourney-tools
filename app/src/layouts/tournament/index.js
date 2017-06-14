@@ -5,6 +5,7 @@ import { Container, Grid, Header, Statistic } from 'semantic-ui-react';
 
 // get custom components
 import DateFormat from '../../components/date';
+import Finals from '../../components/finals';
 import Preliminary from '../../components/prelim';
 import TeamList from '../../components/teamlist';
 
@@ -23,17 +24,62 @@ class Tournament extends Component {
         super(props);
         const id = props.match.params.id;
 
+        let tournament = null;
+
         const loaded_data = load_state(id);
         // try to get data from localstorage first
         if (loaded_data) {
             console.log("Loading from state");
-            this.state = loaded_data;
+            tournament = loaded_data;
         } else {
             console.log("Loading from data file");
-            let tournament = tournaments.findById(id);
+            tournament = tournaments.findById(id);
             tournament.pool_matches = matches;
-            this.state = tournament;
         }
+
+        if (typeof(tournament.finals) === "undefined") {
+            // add the finals section
+            // add finals details.
+            tournament.finals = {
+                "semi": {
+                    matches: [
+                        {
+                            id: "semi-1",
+                            determined: false,
+                            result: {
+                                resulted: false,
+                            },
+                            teams: [],
+                            placeholder: ["Pool A Winner", "Pool B Runner Up"],
+                        },
+                        {
+                            id: "semi-2",
+                            determined: false,
+                            result: {
+                                resulted: false,
+                            },
+                            teams: [],
+                            placeholder: ["Pool B Winner", "Pool A Runner Up"],
+                        },
+                    ]
+                },
+                "final": {
+                    matches: [
+                        {
+                            id: "final",
+                            determined: false,
+                            result: {
+                                resulted: false,
+                            },
+                            teams: [],
+                            placeholder: ["Semi Final 1 Winner", "Semi Final 2 Winner"],
+                        },
+                    ],
+                },
+            }
+        }
+
+        this.state = tournament;
     };
 
     handleResult = (match) => {
@@ -62,6 +108,22 @@ class Tournament extends Component {
         //TODO CALL API to update here.
     }
 
+    handleRoundComplete = (teamdata) => {
+        // team is a full list of all the teams along with their standings
+        // ranking.
+        // {
+        //  round: 'prelim|round16|quarter|semi|final',
+        //  matches: [
+        //      match: {
+        //  ]
+        //  results: [
+        //      team: {
+        //          id: cksdk
+        //          poolid: djsdsadj
+        //          points: 12
+        //  ]
+    }
+
     render() {
         console.log(this.state);
 
@@ -84,7 +146,9 @@ class Tournament extends Component {
                         matches={ this.state.pool_matches }
                         onResult={ this.handleResult }
                     />
-                    <p>Elimination info</p>
+                    <Finals tournament={ this.state }
+                        matches={ this.state.finals }
+                        onResult={ this.handleFinalResult } />
                 </Grid.Column>
                 <Grid.Column className="supplementary" as="aside" width={5}>
                     <Header as="h3">
@@ -101,13 +165,6 @@ class Tournament extends Component {
                         </Header.Subheader>
                     </Header>
 
-                    {
-                        // TODO Make a teams section which can open out
-                        // with a list of all teams and each team can be
-                        // clicked on which will trigger a modal with the
-                        // details and allow them to be edited.
-                        //
-                    }
                     <Header as="h3">Teams</Header>
                     <TeamList
                         teams={ this.state.teams }
