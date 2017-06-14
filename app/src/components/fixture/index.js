@@ -15,7 +15,6 @@ class Fixture extends Component {
             matches: props.matches,
         };
 
-        console.log(this.state);
     };
 
     // we do this to create a closure and return a function to the

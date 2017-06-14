@@ -79,6 +79,14 @@ class Tournament extends Component {
             }
         }
 
+        if (typeof(tournament.rounds_finished) === 'undefined') {
+            tournament.rounds_finished = {
+                prelim: false,
+                semi: false,
+                final: false,
+            };
+        }
+
         this.state = tournament;
     };
 
@@ -91,6 +99,8 @@ class Tournament extends Component {
         matches[index] = match;
 
         this.setState({pool_matches: matches});
+
+        this.checkRoundComplete(matches, 'prelim');
 
         // save the data to localstorage for later usage.
         save_state(this.state.id, this.state);
@@ -108,20 +118,103 @@ class Tournament extends Component {
         //TODO CALL API to update here.
     }
 
-    handleRoundComplete = (teamdata) => {
-        // team is a full list of all the teams along with their standings
-        // ranking.
-        // {
-        //  round: 'prelim|round16|quarter|semi|final',
-        //  matches: [
-        //      match: {
-        //  ]
-        //  results: [
-        //      team: {
-        //          id: cksdk
-        //          poolid: djsdsadj
-        //          points: 12
-        //  ]
+    checkRoundComplete(matches, round_type) {
+        // now we need to check if all the matches have resulted.
+        let result_count = _.reduce(matches, (result, value) => {
+            return result + (value.result.resulted ? 1 : 0);
+        }, 0);
+
+        if (result_count === matches.length) {
+            let { rounds_finished } = this.state;
+            rounds_finished[round_type] = true;
+            this.setState({ rounds_finished: rounds_finished});
+
+            // now we need to advance the round. To do that we need
+            // to know the original round (round type) the next round
+            // and the team list and the matches to derive the next lot
+            // probably just shortcut this for the moment.
+            this.advanceRound(round_type);
+        }
+
+        save_state(this.state_id, this.state);
+    }
+
+    advanceRound(round_type) {
+
+        if (round_type === "prelim") {
+            const pools = this.state.pools;
+            const matches = this.state.pool_matches;
+            const teams = this.state.teams;
+
+            let semi_list = [];
+
+            _.forEach(pools, (pool) => {
+
+                let team_results = _.map(pool.teams, (teamid, index) => {
+
+                    let team_matches = _.filter(matches, (match) => {
+                        return ( match.teams.includes(teamid) && match.result.resulted);
+                    });
+
+                    let teamdata = {
+                        id: teamid,
+                        wins: _.reduce(team_matches, (result, value) => {
+                            if (value.result.win === teamid) {
+                                return result + 1;
+                            } else {
+                                return result;
+                            }
+                        }, 0),
+                        losses: _.reduce(team_matches, (result, value) => {
+                            if (value.result.lose === teamid) {
+                                return result + 1;
+                            } else {
+                                return result;
+                            }
+                        }, 0),
+                        draws: _.reduce(team_matches, (result, value) => {
+                            if (value.result.draw) {
+                                return result + 1;
+                            } else {
+                                return result;
+                            }
+                        }, 0),
+                    };
+
+                    teamdata.points = (teamdata.wins * 3) +
+                        (teamdata.losses * 1) +
+                        (teamdata.draws * 2);
+
+                    return teamdata;
+
+                });
+
+                // now we have team_results for the pool.
+                team_results = _.orderBy(team_results, 'points', 'desc');
+
+                semi_list.push( {
+                    winner: team_results[0].id,
+                    runner: team_results[1].id,
+                });
+            });
+
+            // now update the matches for the semi
+            let finals = this.state.finals;
+
+            for (let i=0; i< finals.semi.matches.length; i++) {
+
+                finals.semi.matches[i].determined = true;
+                finals.semi.matches[i].teams.push(semi_list[i].winner);
+                // do this so we swap them around.
+                if (i % 2 === 0) {
+                    finals.semi.matches[i].teams.push(semi_list[i+1].runner);
+                } else {
+                    finals.semi.matches[i].teams.push(semi_list[i-1].runner);
+                }
+            }
+
+            this.setState({ finals: finals });
+        }
     }
 
     render() {
