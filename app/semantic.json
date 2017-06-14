@@ -4,7 +4,7 @@
     "source": {
       "config": "src/theme.config",
       "definitions": "src/definitions/",
-      "site": "src/site/",
+      "site": "site/",
       "themes": "src/themes/"
     },
     "output": {
@@ -13,7 +13,7 @@
       "compressed": "build/components/",
       "themes": "build/themes/"
     },
-    "clean": "dist/"
+    "clean": "build/"
   },
   "permission": false,
   "autoInstall": false,

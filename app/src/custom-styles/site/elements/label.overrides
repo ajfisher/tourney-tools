@@ -1,0 +1,9 @@
+/*******************************
+         Site Overrides
+*******************************/
+
+/** Make all the create labels work the same way **/
+.container.create div.ui.label {
+    width: 10rem;
+}
+
