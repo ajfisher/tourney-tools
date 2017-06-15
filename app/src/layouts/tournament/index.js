@@ -109,7 +109,6 @@ class Tournament extends Component {
     handleFinalResult = (match, finalType) => {
         // refactor this out as it's a duplicate of above
         //
-        console.log(finalType);
         let finals = this.state.finals;
         let matches = finals[finalType].matches;
         let index = _.findIndex(matches, {'id': match.id});

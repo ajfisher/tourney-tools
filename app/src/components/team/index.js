@@ -4,15 +4,24 @@ import { Button, Container, Grid, Header, Icon, Image, Input, List, Segment } fr
 
 import GeoPattern from 'geopattern';
 
+const media_url = "http://localhost:3002/media";
+
 export class TeamSwatch extends Component {
 
     render() {
 
-        const { name } = this.props;
-        const avatar = GeoPattern.generate(name);
+        const { name, avatar } = this.props;
+
+        let image = null;
+
+        if (avatar) {
+            image = media_url + avatar;
+        } else {
+            image = GeoPattern.generate(name).toDataUri();
+        }
 
         return (
-            <Image avatar bordered src={ avatar.toDataUri() } />
+            <Image avatar bordered src={ image } />
         )
     }
 }
@@ -165,6 +174,14 @@ class TeamDetails extends Component {
 
         const { team, edit_mode } = this.state;
 
+        let teamimage = null;
+
+        if (team.avatar) {
+            teamimage = media_url + team.avatar;
+        } else {
+            teamimage = GeoPattern.generate(team.name).toDataUri();
+        }
+
         return (
             <Container>
                 <Segment.Group>
@@ -204,7 +221,7 @@ class TeamDetails extends Component {
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Image size="medium" floated="right"
-                                        src={ GeoPattern.generate(team.name).toDataUri() }
+                                        src={ teamimage }
                                     />
                                 </Grid.Column>
                             </Grid.Row>

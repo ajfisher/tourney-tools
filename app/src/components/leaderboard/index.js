@@ -35,7 +35,7 @@ class Leaderboard extends Component {
                                 <Table.Row key={index}>
                                     <Table.Cell>{ index + 1 }</Table.Cell>
                                     <Table.Cell>
-                                        <TeamSwatch name={team.name} />
+                                        <TeamSwatch name={team.name} avatar={ team.avatar } />
                                         { team.name }
                                     </Table.Cell>
                                     <Table.Cell textAlign="center">

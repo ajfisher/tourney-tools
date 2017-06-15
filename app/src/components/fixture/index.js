@@ -49,8 +49,7 @@ class Fixture extends Component {
 
         matches[index] = match;
 
-        //this.setState({matches: matches});
-        this.props.onHandleResult(match);
+        this.props.onResult(match);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -69,6 +68,11 @@ class Fixture extends Component {
         let fixtures_per_row = 2;
         if (finalType === 'final') {
             fixtures_per_row = 1;
+        }
+
+        let allow_draw = true;
+        if (finalType) {
+            allow_draw = false;
         }
 
         return (
@@ -119,6 +123,7 @@ class Fixture extends Component {
                                         teamA={ team_a } teamB={team_b}
                                         onWinResult={ this.handle_win_result }
                                         onDrawResult={ this.handle_draw_result }
+                                        allowDraw={ allow_draw }
                                      />
                         }
 
@@ -126,11 +131,11 @@ class Fixture extends Component {
                             <Card key={ match.id } className="fixture"
                                 color={card_colour}>
                                 <Card.Content>
-                                    <Card.Header>
+                                    <Card.Header as="h1">
                                         <Container textAlign="center">
-                                            <TeamSwatch name={ team_a.name } /> 
-                                            { team_a.name } vs { team_b.name }
-                                            <TeamSwatch name={ team_b.name } />
+                                            <TeamSwatch name={ team_a.name } avatar={ team_a.avatar }/>
+                                            { team_a.name } v { team_b.name }
+                                            <TeamSwatch name={ team_b.name } avatar={ team_b.avatar } />
                                         </Container>
                                     </Card.Header>
                                     <Card.Meta>

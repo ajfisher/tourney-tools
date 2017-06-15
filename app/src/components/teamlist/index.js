@@ -59,7 +59,7 @@ class TeamList extends Component {
                                     <Table.Row key={index}
                                         onClick={ this.handle_open(index) } >
                                         <Table.Cell>
-                                            <TeamSwatch name={team.name} />
+                                            <TeamSwatch name={team.name} avatar={team.avatar} />
                                             {team.name}
                                         </Table.Cell>
                                     </Table.Row>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'semantic-ui-react'
+import { Button, Container, Modal } from 'semantic-ui-react'
+
+import { TeamSwatch } from "../team";
 
 class Result extends Component {
     constructor(props) {
@@ -39,6 +41,16 @@ class Result extends Component {
 
         const trigger_text = this.props.match.result.resulted ? "Update result" : "Record result";
 
+        let draw_btn = null;
+
+        if (this.props.allowDraw) {
+            draw_btn = <Button basic size="huge" onClick={ this.handle_draw }>
+                            <TeamSwatch name={team_a.name} avatar={team_a.avatar} />
+                            Draw
+                            <TeamSwatch name={team_b.name} avatar={team_b.avatar} />
+                        </Button>
+        }
+
         return (
             <Modal
                 dimmer="blurring"
@@ -48,26 +60,23 @@ class Result extends Component {
                 }
                 onClose={this.handle_close}
             >
-                <Modal.Header>Record the result</Modal.Header>
-                <Modal.Content>
-                    Select the winner of the match or indicate a draw
-                </Modal.Content>
+                <Modal.Header>Select the winner of the match or indicate a draw</Modal.Header>
                 <Modal.Actions>
-                    <Button
-                        color="blue"
-                        onClick={ this.handle_win(team_a) }
-                    >
-                        { team_a.name } win
-                    </Button>
-                    <Button
-                        color="yellow"
-                        onClick={ this.handle_win(team_b) }
-                    >
-                        { team_b.name } win
-                    </Button>
-                    <Button onClick={ this.handle_draw }>
-                        Draw
-                    </Button>
+                    <Container textAlign="center">
+                        <Button basic size="huge"
+                            onClick={ this.handle_win(team_a) }
+                        >
+                            <TeamSwatch name={team_a.name} avatar={team_a.avatar} />
+                            { team_a.name } wins
+                        </Button>
+                        <Button basic size="huge"
+                            onClick={ this.handle_win(team_b) }
+                        >
+                            <TeamSwatch name={team_b.name} avatar={team_b.avatar} />
+                            { team_b.name } wins
+                        </Button>
+                        { draw_btn }
+                    </Container>
                 </Modal.Actions>
             </Modal>
         );
