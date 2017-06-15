@@ -4,7 +4,11 @@
   "description": "Tournament tooling",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "cd server && npm run start",
+    "api": "cd api && npm run api-start",
+    "app": "cd app && npm run start",
+    "dev": "concurrently --kill-others --prefix [{name}] --names \"STATIC, REACT\" -c \"cyan,magenta\" \"npm run server\" \"npm run app\" "
   },
   "keywords": [
     "matchup",
@@ -14,6 +18,7 @@
   "author": "Andrew Fisher <ajfisher.td@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "concurrently": "^3.4.0",
     "lodash": "^4.17.4"
   }
 }
