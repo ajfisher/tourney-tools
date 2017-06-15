@@ -106,6 +106,25 @@ class Tournament extends Component {
         save_state(this.state.id, this.state);
     };
 
+    handleFinalResult = (match, finalType) => {
+        // refactor this out as it's a duplicate of above
+        //
+        console.log(finalType);
+        let finals = this.state.finals;
+        let matches = finals[finalType].matches;
+        let index = _.findIndex(matches, {'id': match.id});
+        matches[index] = match;
+        // update the finals again.
+        finals[finalType].matches = matches;
+
+        this.setState({finals: finals});
+
+        this.checkRoundComplete(matches, finalType);
+
+        // save the data to localstorage for later usage.
+        save_state(this.state.id, this.state);
+    };
+
     handleTeamChange = (team) => {
         // update the state with the change of the team data
         let teams = this.state.teams;
@@ -144,7 +163,6 @@ class Tournament extends Component {
         if (round_type === "prelim") {
             const pools = this.state.pools;
             const matches = this.state.pool_matches;
-            const teams = this.state.teams;
 
             let semi_list = [];
 
@@ -212,6 +230,15 @@ class Tournament extends Component {
                     finals.semi.matches[i].teams.push(semi_list[i-1].runner);
                 }
             }
+
+            this.setState({ finals: finals });
+        } else if ( round_type === 'semi' ) {
+            // basically get the winners of the semi and put them in the final
+            let finals = this.state.finals;
+            let semis = finals.semi.matches;
+            finals.final.matches[0].teams.push(semis[0].result.win);
+            finals.final.matches[0].teams.push(semis[1].result.win);
+            finals.final.matches[0].determined = true;
 
             this.setState({ finals: finals });
         }

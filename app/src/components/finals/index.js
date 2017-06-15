@@ -20,6 +20,8 @@ const final_names = {
 
 class Final extends Component {
 
+    handleResult = (match) => this.props.onResult(match, this.props.finalType);
+
     render() {
         const { finalType } = this.props;
 
@@ -30,14 +32,16 @@ class Final extends Component {
                 <Fixture teams={ this.props.teams}
                     matches={this.props.matches}
                     finalType={finalType}
+                    onResult={ this.handleResult }
                 />
             </Container>
-
         )
     }
 }
 
 class Finals extends Component {
+
+    handleResult = (match, finalType) => this.props.onResult(match, finalType);
 
     render() {
 
@@ -53,6 +57,7 @@ class Finals extends Component {
                         <Final key={ i } finalType={final_type}
                             teams={ teams }
                             matches={ matches }
+                            onResult={ this.handleResult }
                         />
                     )
                 })

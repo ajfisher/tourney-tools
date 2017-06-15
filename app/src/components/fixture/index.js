@@ -35,6 +35,7 @@ class Fixture extends Component {
         this.setState({matches: matches});
 
         this.props.onResult(match);
+
     }
 
     handle_draw_result = (match_id) => {
