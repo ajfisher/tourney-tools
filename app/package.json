@@ -2,7 +2,7 @@
   "name": "app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001/",
+  "proxy": "http://localhost:3002",
   "dependencies": {
     "geopattern": "^1.2.3",
     "moment": "^2.18.1",
