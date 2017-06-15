@@ -4,11 +4,11 @@ const _ = require('lodash');
 
 let tournaments = [
     {
-        id: "abcdef",
+        id: "pwcmelb",
         key: "ABC123",
         official: "Andrew Fisher",
-        name: "Test Tournament at Test Place",
-        date: "20170527",
+        name: "Robotics Challenge",
+        date: "20170616",
     },
 ];
 
@@ -27,52 +27,64 @@ tournaments.findById = function(id) {
 
 const teams = [
     {
-        id: "a1",
-        name: "Team A1",
-        avatar: "https://example.com/imageurl",
-        members: ["A1_1", "A1_2", "A1_3"],
+        id: "pwc1",
+        name: "Asimo",
+        avatar: "/asimo.jpg",
+        members: ["1", "2", "3", "4"],
     },
     {
-        id: "a2",
-        name: "Team A2",
-        avatar: "https://example.com/imageurl",
-        members: ["A2_1", "A2_2", "A2_3"],
+        id: "pwc2",
+        name: "Bender",
+        avatar: "/bender.png",
+        members: ["1", "2", "3", "4"],
     },
     {
-        id: "a3",
-        name: "Team A3",
-        avatar: "https://example.com/imageurl",
-        members: ["A3_1", "A3_2", "A3_3"],
+        id: "pwc3",
+        name: "C-3P0",
+        avatar: "/c3p0.png",
+        members: ["1", "2", "3", "4"],
     },
     {
-        id: "a4",
-        name: "Team A4",
-        avatar: "https://example.com/imageurl",
-        members: ["A4_1", "A4_2", "A4_3"],
+        id: "pwc4",
+        name: "Eva",
+        avatar: "/eva.png",
+        members: ["1", "2", "3", "4"],
     },
     {
-        id: "b1",
-        name: "Team B1",
-        avatar: "https://example.com/imageurl",
-        members: ["B1_1", "B1_2", "B1_3"],
+        id: "pwc5",
+        name: "Optimus",
+        avatar: "/optimus.jpg",
+        members: ["1", "2", "3", "4"],
     },
     {
-        id: "b2",
-        name: "Team B2",
-        avatar: "https://example.com/imageurl",
-        members: ["B2_1", "B2_2", "B2_3"],
+        id: "pwc6",
+        name: "R2D2",
+        avatar: "/r2d2.jpg",
+        members: ["1", "2", "3", "4"],
     },
     {
-        id: "b3",
-        name: "Team B3",
-        avatar: "https://example.com/imageurl",
-        members: ["B3_1", "B3_2", "B3_3"],
+        id: "pwc7",
+        name: "RoboCop",
+        avatar: "/robocop.png",
+        members: ["1", "2", "3", "4"],
     },
     {
-        id: "b4",
-        name: "Team B4",
-        avatar: "https://example.com/imageurl",
-        members: ["B4_1", "B4_2", "B4_3"],
+        id: "pwc8",
+        name: "Sonny",
+        avatar: "/sonny.jpg",
+        members: ["1", "2", "3", "4"],
+    },
+    {
+        id: "pwc9",
+        name: "Terminator",
+        avatar: "/terminator.jpg",
+        members: ["1", "2", "3", "4"],
+    },
+    {
+        id: "pwc10",
+        name: "Wall-E",
+        avatar: "/wall-e.jpg",
+        members: ["1", "2", "3", "4"],
     },
 ];
 
@@ -80,14 +92,14 @@ tournaments[0].teams = teams;
 
 let pools = [
     {
-        id:"poola",
-        tournament_id: "abcdef",
-        teams: ["a1", "a2", "a3", "a4"],
+        id:"pwcpoola",
+        tournament_id: "pwcmelb",
+        teams: ["pwc1", "pwc2", "pwc3", "pwc4", "pwc5"],
     },
     {
-        id:"poolb",
-        tournament_id: "abcdef",
-        teams: ["b1", "b2", "b3", "b4"],
+        id:"pwcpoolb",
+        tournament_id: "pwcmelb",
+        teams: ["pwc6", "pwc7", "pwc8", "pwc9", "pwc10"],
     },
 ];
 

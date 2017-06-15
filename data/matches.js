@@ -6,12 +6,12 @@ import uuid from 'uuid';
 
 const pools = [
     {
-        id: "poola",
-        teams: ["a1", "a2", "a3", "a4"],
+        id: "pwcpoola",
+        teams: ["pwc1", "pwc2", "pwc3", "pwc4", "pwc5"],
     },
     {
-        id: "poolb",
-        teams: ["b1", "b2", "b3", "b4"],
+        id: "pwcpoolb",
+        teams: ["pwc6", "pwc7", "pwc8", "pwc9", "pwc10"],
     },
 ];
 
@@ -42,5 +42,13 @@ pools.forEach((pool) => {
         }
     }
 });
+
+// shuffle the matches in place using Durstenfeld
+for (let i = matches.length -1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    let temp = matches[i];
+    matches[i] = matches[j];
+    matches[j] = temp;
+}
 
 export default matches;
