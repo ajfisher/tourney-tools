@@ -6,8 +6,8 @@ let tournaments = [
     {
         id: "pwcmelb",
         key: "ABC123",
-        official: "Andrew Fisher",
-        name: "Robotics Challenge",
+        official: "Rhett Richardson / Andrew Fisher",
+        name: "PwC STEM Robotics Challenge",
         date: "20170616",
     },
 ];
