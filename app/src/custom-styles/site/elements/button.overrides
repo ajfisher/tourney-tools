@@ -1,3 +1,9 @@
 /*******************************
          Site Overrides
 *******************************/
+
+/** Add member button positioning **/
+button.ui.addmember {
+    margin-left: 2.5rem;
+    width: 12.6rem;
+}

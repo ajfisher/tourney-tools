@@ -27,7 +27,7 @@ export class TeamSwatch extends Component {
 }
 
 class TeamName extends Component {
-    // TODO make the team name editable
+    // manages the changes of the team name
 
     change = (e, data) => {
         this.props.onDataChange(e, data);
@@ -59,6 +59,7 @@ class TeamName extends Component {
 }
 
 class TeamMember extends Component {
+    // renders or manages a specific team member entry
 
     name_change = (e, data) => {
         this.props.onDataChange(e, data);
@@ -101,6 +102,7 @@ class TeamMember extends Component {
 }
 
 class TeamDetails extends Component {
+    // provides all of the team details
 
     constructor(props) {
         super(props);
@@ -127,8 +129,14 @@ class TeamDetails extends Component {
         this.setState({team: teamdata });
     }
 
-    // this is passes off the team data back to a higher place to save it off.
     save_changes = () => {
+        // this just passes off the team data back to a higher place to save it off.
+        // before we do so, remove any
+
+        let teamdata = this.state.team;
+
+        teamdata.members = _.pull(teamdata.members, '');
+
         this.props.onSave(this.state.team);
     }
 
@@ -141,18 +149,25 @@ class TeamDetails extends Component {
         this.setState({ edit_mode: !this.state.edit_mode });
     }
 
+    add_member = () => {
+        // adds a new field item to add a member
+        let teamdata = this.state.team;
+        teamdata.members.push("");
+        this.setState({ team: teamdata });
+    }
+
     mode_buttons(edit_mode) {
 
         if (edit_mode) {
             return (
                 <Segment>
                     <Container textAlign="center">
-                        <Button
+                        <Button primary positive
                             onClick={ this.save_changes }
-                            content="Save changes" positive/>
-                        <Button
+                            content="Save changes"/>
+                        <Button secondary basic
                             onClick={ this.cancel_changes }
-                            content="Cancel" basic />
+                            content="Cancel" />
                     </Container>
                 </Segment>
             )
@@ -160,10 +175,11 @@ class TeamDetails extends Component {
             return (
                 <Segment>
                     <Container textAlign="center">
-                        <Button content="Edit team" onClick={ this.switch_modes }/>
-                        <Button
+                        <Button content="Edit team" primary
+                            onClick={ this.switch_modes }/>
+                        <Button basic secondary
                             onClick={ this.cancel_changes }
-                            content="Cancel" basic />
+                            content="Cancel" />
                     </Container>
                 </Segment>
             )
@@ -176,10 +192,19 @@ class TeamDetails extends Component {
 
         let teamimage = null;
 
+        // determine if we have an avatar or use a swatch
         if (team.avatar) {
             teamimage = media_url + team.avatar;
         } else {
             teamimage = GeoPattern.generate(team.name).toDataUri();
+        }
+
+        // if we're in edit mode, add a button to allow the addition of
+        // another team member
+        let add_member = null;
+        if (edit_mode) {
+            add_member = <Button basic color="black" className="addmember"
+                content="Add member" onClick={ this.add_member }/>
         }
 
         return (
@@ -218,6 +243,7 @@ class TeamDetails extends Component {
                                         })
                                     }
                                     </List>
+                                    { add_member }
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Image size="medium" floated="right"
