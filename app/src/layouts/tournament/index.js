@@ -50,7 +50,7 @@ class Tournament extends Component {
                                 resulted: false,
                             },
                             teams: [],
-                            placeholder: ["Pool A Winner", "Pool B Runner Up"],
+                            placeholder: ["Group A Winner", "Group B Runner Up"],
                         },
                         {
                             id: "semi-2",
@@ -59,7 +59,7 @@ class Tournament extends Component {
                                 resulted: false,
                             },
                             teams: [],
-                            placeholder: ["Pool B Winner", "Pool A Runner Up"],
+                            placeholder: ["Group B Winner", "Group A Runner Up"],
                         },
                     ]
                 },
@@ -295,7 +295,7 @@ class Tournament extends Component {
                         <Statistic.Group>
                             {
                                 this.state.pools.map((pool, index) => {
-                                    const name = `Pool ${String.fromCharCode(65+index)}`;
+                                    const name = `Group ${String.fromCharCode(65+index)}`;
                                     const matches = this.state.pool_matches;
                                     const p_matches = _.filter(matches, {'pool': pool.id});
                                     const resulted = _.reduce(p_matches, (result, value) => {

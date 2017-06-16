@@ -112,11 +112,11 @@ class Preliminary extends Component {
 
         return (
             <Container fluid as="section" className="prelims">
-                <Header as="h2">Preliminary Rounds</Header>
+                <Header as="h2">Group stage</Header>
                 <Menu pointing secondary>
                     {
                         this.props.pools.map((pool, index) => {
-                            const name = `Pool ${String.fromCharCode(65+index)}`
+                            const name = `Group ${String.fromCharCode(65+index)}`
                             return (
                                 <Menu.Item key={pool.id} name={name} id={pool.id}
                                     active={active_pool === pool.id}
