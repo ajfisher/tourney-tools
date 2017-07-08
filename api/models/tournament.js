@@ -34,9 +34,14 @@ let tournamentSchema = new Schema({
         type: Date,
     },
     rounds_finished: {
-        type: 'map',
+        type: Object,
         required: true,
-        map: {
+        default: {
+            prelim: false,
+            semi: false,
+            final: false,
+        },
+        /**map: {
             prelim: {
                 type: Boolean,
                 default: false,
@@ -49,7 +54,7 @@ let tournamentSchema = new Schema({
                 type: Boolean,
                 default: false,
             },
-        },
+        },**/
     },
     pools: {
         type: 'list',
