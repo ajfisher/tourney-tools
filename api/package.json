@@ -10,12 +10,14 @@
   "author": "Andrew Fisher <ajfisher.td@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.15.3",
+    "aws-sdk": "^2.82.0",
+    "dynamoose": "^0.8.2",
     "lodash": "^4.17.4",
-    "swaggerize-express": "^4.0.5"
+    "serverless": "^1.17.0",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
-    "generator-swaggerize": "^3.1.0",
-    "swagmock": "git://github.com/ajfisher/swagmock.git#xformat"
+    "serverless-dynamodb-local": "^0.2.22",
+    "serverless-offline": "^3.15.0"
   }
 }
