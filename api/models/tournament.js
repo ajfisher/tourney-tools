@@ -13,6 +13,7 @@ const options = {
     create: true,
     udpate: true,
     timestamps: true,
+    useDocumentTypes: true,
 };
 
 let tournamentSchema = new Schema({
@@ -32,6 +33,24 @@ let tournamentSchema = new Schema({
     date: {
         type: Date,
     },
+    rounds_finished: {
+        type: 'map',
+        required: true,
+        map: {
+            prelim: {
+                type: Boolean,
+                default: false,
+            },
+            semi: {
+                type: Boolean,
+                default: false,
+            },
+            final: {
+                type: Boolean,
+                default: false,
+            },
+        },
+    }
 });
 
 let Tournament = dynamoose.model('Tournament',tournamentSchema, options);
