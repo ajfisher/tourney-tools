@@ -1,51 +1,33 @@
 'use strict';
-var dataProvider = require('../data/tournament.js');
-/**
- * Operations on /tournament
- */
-module.exports = {
-    /**
-     * summary: Returns all of the tournaments in the system
-     * description: 
-     * parameters: 
-     * produces: 
-     * responses: 200
-     */
-    get: function findTournaments(req, res, next) {
-        /**
-         * Get the data for response 200
-         * For response `default` status 200 is used.
-         */
-        var status = 200;
-        var provider = dataProvider['get']['200'];
-        provider(req, res, function (err, data) {
-            if (err) {
-                next(err);
-                return;
-            }
-            res.status(status).send(data && data.responses);
+
+const Tournament = require("../models/tournament");
+
+module.exports.get = (event, context, callback) => {
+
+    console.log("About to get the object");
+
+    Tournament.get(123456)
+        .then((t) => {
+            console.log("got object, sending back x2");
+            console.log(t);
+            const response = {
+                statusCode: 200,
+                body: JSON.stringify(t),
+            };
+            callback(null, response);
+        })
+        .catch((err) => {
+            console.log("no object, send back 404");
+            console.log(err);
+            const response = {
+                statusCode: 404,
+                body: JSON.stringify(err),
+            };
+            callback(null, response);
         });
-    },
-    /**
-     * summary: Creates a new tournament
-     * description: 
-     * parameters: tournament
-     * produces: 
-     * responses: 200
-     */
-    post: function addTournament(req, res, next) {
-        /**
-         * Get the data for response 200
-         * For response `default` status 200 is used.
-         */
-        var status = 200;
-        var provider = dataProvider['post']['200'];
-        provider(req, res, function (err, data) {
-            if (err) {
-                next(err);
-                return;
-            }
-            res.status(status).send(data && data.responses);
-        });
-    }
+
+
+    // Use this code if you don't use the http event with the LAMBDA-PROXY integration
+    // callback(null, { message: 'Go Serverless v1.0! Your function executed successfully!', event });
 };
+
