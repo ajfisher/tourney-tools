@@ -1,0 +1,74 @@
+[
+    {
+        "id": "pwc1",
+        "name": "Asimo",
+        "avatar": "asimo.jpg",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc2",
+        "name": "Bender",
+        "avatar": "/bender.png",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc3",
+        "name": "C-3P0",
+        "avatar": "/c3p0.png",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc4",
+        "name": "Eva",
+        "avatar": "/eva.png",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc5",
+        "name": "Optimus",
+        "avatar": "/optimus.jpg",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc6",
+        "name": "R2D2",
+        "avatar": "/r2d2.jpg",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc7",
+        "name": "RoboCop",
+        "avatar": "/robocop.png",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc8",
+        "name": "Sonny",
+        "avatar": "/sonny.jpg",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc9",
+        "name": "Terminator",
+        "avatar": "/terminator.jpg",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "pwc10",
+        "name": "Wall-E",
+        "avatar": "/wall-e.jpg",
+        "tournament": "pwcmelb"
+    },
+    {
+        "id": "nbd1",
+        "name": "Devastator",
+        "avatar": "",
+        "tournament": "nbdmelb2017"
+    },
+    {
+        "id": "nbd2",
+        "name": "Devastator 2",
+        "avatar": "",
+        "tournament": "nbdmelb2017"
+    }
+]

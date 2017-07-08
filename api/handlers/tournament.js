@@ -1,33 +1,63 @@
 'use strict';
 
+const Team = require("../models/team");
 const Tournament = require("../models/tournament");
 
 module.exports.get = (event, context, callback) => {
 
-    console.log("About to get the object");
+    let id = null;
+    // check if we even got an ID sent through.
+    if (typeof(event.pathParameters['id']) === 'undefined') {
+        const response = {
+            statusCode: 404,
+            body: JSON.stringify({ msg: "Resource not found"}),
+        };
 
-    Tournament.get(123456)
-        .then((t) => {
-            console.log("got object, sending back x2");
-            console.log(t);
-            const response = {
-                statusCode: 200,
-                body: JSON.stringify(t),
-            };
-            callback(null, response);
-        })
-        .catch((err) => {
-            console.log("no object, send back 404");
-            console.log(err);
-            const response = {
+        callback(null, response);
+    } else {
+        id = event.pathParameters.id;
+    }
+
+    Tournament.get({id: id})
+    .then((t) => {
+
+        let response = {};
+
+        if (typeof(t) === 'undefined') {
+            response =  {
                 statusCode: 404,
-                body: JSON.stringify(err),
+                body: JSON.stringify({ msg: "Resource not found"}),
             };
             callback(null, response);
-        });
 
+        } else {
 
-    // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-    // callback(null, { message: 'Go Serverless v1.0! Your function executed successfully!', event });
+            // remove the secret key from the message
+            t.secret = "";
+
+            // get the team data
+            Team.scan('tournament').eq(id).exec((err, teams) => {
+
+                if (! err) {
+                    t.teams = teams;
+                }
+                response = {
+                    statusCode: 200,
+                    body: JSON.stringify(t),
+                };
+
+                callback(null, response);
+            });
+        }
+    })
+    .catch((err) => {
+        console.log("no object, send back 404");
+        console.log(err);
+        const response = {
+            statusCode: 404,
+            body: JSON.stringify(err),
+        };
+        callback(null, response);
+    });
 };
 

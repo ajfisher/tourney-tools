@@ -15,26 +15,31 @@ const options = {
     timestamps: true,
 };
 
-let tournamentSchema = new Schema({
+const teamSchema = new Schema({
     id: {
         type: String,
         hashKey: true,
+        index: {
+            global: true,
+            rangeKey: 'tournament',
+            name: 'TournamentRangeIndex',
+        },
     },
     name: {
         type: String,
+        required: true,
     },
-    official: {
+    avatar: {
         type: String,
+        required: false,
     },
-    secret: {
+    tournament: {
         type: String,
-    },
-    date: {
-        type: Date,
+        required: true,
     },
 });
 
-let Tournament = dynamoose.model('Tournament',tournamentSchema, options);
 
-module.exports = Tournament;
+let Team = dynamoose.model('Team', teamSchema, options);
 
+module.exports = Team;

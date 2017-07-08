@@ -1,0 +1,16 @@
+[
+    {
+        "id": "pwcmelb",
+        "secret": "ABC123",
+        "official": "Rhett Richardson / Andrew Fisher",
+        "name": "PwC STEM Robotics Challenge",
+        "date": "20170616"
+    },
+    {
+        "id": "nbdmelb2017",
+        "secret": "ABC123",
+        "official": "Andrew Fisher",
+        "name": "NodeBots Day Melbourne 2017",
+        "date": "20170722"
+    }
+]
