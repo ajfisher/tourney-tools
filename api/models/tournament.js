@@ -50,6 +50,19 @@ let tournamentSchema = new Schema({
                 default: false,
             },
         },
+    },
+    pools: {
+        type: 'list',
+        list: [{
+            id: {
+                type: String,
+                required: true,
+            },
+            teams: {
+                type: [String],
+                required: true,
+            },
+        }],
     }
 });
 

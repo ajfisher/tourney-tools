@@ -9,7 +9,17 @@
             "prelim": false,
             "semi": false,
             "final": false
-        }
+        },
+        "pools": [
+            {
+                "id": "poola",
+                "teams": ["pwc1", "pwc2", "pwc3", "pwc4", "pwc5"]
+            },
+            {
+                "id": "poolb",
+                "teams": ["pwc6", "pwc7", "pwc8", "pwc9", "pwc10"]
+            }
+        ]
     },
     {
         "id": "nbdmelb2017",
@@ -21,6 +31,12 @@
             "prelim": false,
             "semi": false,
             "final": false
-        }
+        },
+        "pools": [
+            {
+                "id": "pool-a",
+                "teams": [ "nbd1", "nbd2"]
+            }
+        ]
     }
 ]
