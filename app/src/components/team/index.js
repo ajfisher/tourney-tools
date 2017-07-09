@@ -4,7 +4,7 @@ import { Button, Container, Grid, Header, Icon, Image, Input, List, Segment } fr
 
 import GeoPattern from 'geopattern';
 
-const media_url = "http://localhost:3002/media";
+const media_url = "/media";
 
 export class TeamSwatch extends Component {
 
@@ -197,6 +197,8 @@ class TeamDetails extends Component {
 
         const { team, edit_mode } = this.state;
 
+        const team_members = team.members || [];
+
         let teamimage = null;
 
         // determine if we have an avatar or use a swatch
@@ -239,7 +241,7 @@ class TeamDetails extends Component {
                                     </Header>
                                     <List relaxed>
                                     {
-                                        team.members.map((member, j) => {
+                                        team_members.map((member, j) => {
                                             return (
                                                 <TeamMember
                                                     key={j} name={member}

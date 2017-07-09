@@ -35,8 +35,8 @@ provider:
 
 plugins:
   - serverless-dynamodb-local
+  - serverless-s3-local
   - serverless-offline
-
 
 custom:
   serverless-offline:
@@ -45,7 +45,6 @@ custom:
     start:
       port: 8000
       inMemory: true
-
 
 functions:
   tournamentGet:

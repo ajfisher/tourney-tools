@@ -3,7 +3,7 @@
 const http = require('http');
 const express = require('express');
 
-const port = 3002;
+const port = 4001;
 const host = 'localhost';
 
 var app = express();

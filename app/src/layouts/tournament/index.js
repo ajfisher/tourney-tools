@@ -13,9 +13,8 @@ import TeamList from '../../components/teamlist';
 import { load_state, save_state } from '../../lib/localstorage.js'
 
 // get data
-import { tournaments } from '../../data/tournaments';
-import  matches  from '../../data/matches';
-
+//import { tournaments } from '../../data/tournaments';
+//import  matches  from '../../data/matches';
 
 class Tournament extends Component {
     // sets up the Tournament layout
@@ -26,7 +25,82 @@ class Tournament extends Component {
 
         let tournament = null;
 
-        const loaded_data = load_state(id);
+        // need to get a tournament object
+        fetch("/api/tournament/" + id).then((res) => {
+            console.log(res);
+            if (! res.ok) {
+                throw new Error(res.json());
+            } else {
+                return res.json();
+            }
+        }).then((data) => {
+            tournament = data;
+
+            // refactor this to get it from the api after matches requested
+            if (typeof(tournament.finals) === "undefined") {
+                // add the finals section
+                // add finals details.
+                tournament.finals = {
+                    "semi": {
+                        matches: [
+                            {
+                                id: "semi-1",
+                                determined: false,
+                                result: {
+                                    resulted: false,
+                                },
+                                teams: [],
+                                placeholder: ["Group A Winner", "Group B Runner Up"],
+                            },
+                            {
+                                id: "semi-2",
+                                determined: false,
+                                result: {
+                                    resulted: false,
+                                },
+                                teams: [],
+                                placeholder: ["Group B Winner", "Group A Runner Up"],
+                            },
+                        ]
+                    },
+                    "final": {
+                        matches: [
+                            {
+                                id: "final",
+                                determined: false,
+                                result: {
+                                    resulted: false,
+                                },
+                                teams: [],
+                                placeholder: ["Semi Final 1 Winner", "Semi Final 2 Winner"],
+                            },
+                        ],
+                    },
+                }
+            }
+            // now we know we have a tournament, get the pool matches
+            fetch("http://localhost:4000/tournament/" + id + "/matches").then((res) => {
+                console.log(res);
+                if (! res.ok) {
+                    throw new Error(res.json());
+                } else {
+                    return res.json();
+                }
+            }).then((matches) => {
+                tournament.pool_matches = matches;
+
+                this.setState(tournament);
+
+            }).catch((err) => {
+                console.log(err);
+            });
+
+        }).catch((err) => {
+            console.log(err);
+        });
+
+        //
+        /**const loaded_data = load_state(id);
         // try to get data from localstorage first
         if (loaded_data) {
             console.log("Loading from state");
@@ -35,59 +109,8 @@ class Tournament extends Component {
             console.log("Loading from data file");
             tournament = tournaments.findById(id);
             tournament.pool_matches = matches;
-        }
+        }**/
 
-        if (typeof(tournament.finals) === "undefined") {
-            // add the finals section
-            // add finals details.
-            tournament.finals = {
-                "semi": {
-                    matches: [
-                        {
-                            id: "semi-1",
-                            determined: false,
-                            result: {
-                                resulted: false,
-                            },
-                            teams: [],
-                            placeholder: ["Group A Winner", "Group B Runner Up"],
-                        },
-                        {
-                            id: "semi-2",
-                            determined: false,
-                            result: {
-                                resulted: false,
-                            },
-                            teams: [],
-                            placeholder: ["Group B Winner", "Group A Runner Up"],
-                        },
-                    ]
-                },
-                "final": {
-                    matches: [
-                        {
-                            id: "final",
-                            determined: false,
-                            result: {
-                                resulted: false,
-                            },
-                            teams: [],
-                            placeholder: ["Semi Final 1 Winner", "Semi Final 2 Winner"],
-                        },
-                    ],
-                },
-            }
-        }
-
-        if (typeof(tournament.rounds_finished) === 'undefined') {
-            tournament.rounds_finished = {
-                prelim: false,
-                semi: false,
-                final: false,
-            };
-        }
-
-        this.state = tournament;
     };
 
     handleResult = (match) => {
