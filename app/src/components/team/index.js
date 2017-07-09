@@ -108,8 +108,15 @@ class TeamDetails extends Component {
         super(props);
 
         // take a deep copy so we can change it independently properly.
+        let team = _.cloneDeep(props.team);
+
+        // deal with no members passed through if needed
+        if (typeof(team.members) === 'undefined') {
+            team.members = [];
+        }
+
         this.state = {
-            team: _.cloneDeep(props.team),
+            team: team,
             edit_mode: false,
         };
     }
