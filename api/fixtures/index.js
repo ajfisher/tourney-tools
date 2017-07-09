@@ -24,7 +24,7 @@ const Team = require('../models/team');
 const team_data = require('./teams.json');
 
 team_data.forEach((team) => {
-    // add each of the tournaments to the db.
+    // add each of the teams to the db.
     //
     Team.create(team, (err, t) => {
         if (err) { return console.log(err); }
@@ -32,3 +32,14 @@ team_data.forEach((team) => {
     });
 });
 
+const Match = require('../models/match');
+const match_data = require('./matches.json');
+
+match_data.forEach((match) => {
+    // add each of the matches to the db.
+    //
+    Match.create(match, (err, m) => {
+        if (err) { return console.log(err); }
+        console.log("Added Match: " + m.id);
+    });
+});

@@ -41,20 +41,6 @@ let tournamentSchema = new Schema({
             semi: false,
             final: false,
         },
-        /**map: {
-            prelim: {
-                type: Boolean,
-                default: false,
-            },
-            semi: {
-                type: Boolean,
-                default: false,
-            },
-            final: {
-                type: Boolean,
-                default: false,
-            },
-        },**/
     },
     pools: {
         type: 'list',

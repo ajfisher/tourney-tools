@@ -1,5 +1,6 @@
 'use strict';
 
+const Match = require("../models/match");
 const Team = require("../models/team");
 const Tournament = require("../models/tournament");
 
@@ -61,3 +62,40 @@ module.exports.get = (event, context, callback) => {
     });
 };
 
+
+module.exports.get_matches = (event, context, callback) => {
+
+    let id = null;
+    // check if we even got an ID sent through.
+    if (typeof(event.pathParameters['id']) === 'undefined') {
+        const response = {
+            statusCode: 404,
+            body: JSON.stringify({ msg: "Resource not found"}),
+        };
+
+        callback(null, response);
+    } else {
+        id = event.pathParameters.id;
+    }
+
+    Match.scan("tournament").eq(id).exec((err, matches) => {
+
+        let response = {};
+
+        if (err) {
+            response =  {
+                statusCode: 404,
+                body: JSON.stringify({ msg: "Matches not found"}),
+            };
+
+        } else {
+
+            response = {
+                statusCode: 200,
+                body: JSON.stringify(matches),
+            };
+        }
+
+        callback(null, response);
+    })
+};
