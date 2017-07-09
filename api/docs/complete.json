@@ -1,0 +1,461 @@
+{
+  "id": "pwcmelb",
+  "key": "ABC123",
+  "official": "Rhett Richardson / Andrew Fisher",
+  "name": "PwC STEM Robotics Challenge",
+  "date": "20170616",
+  "teams": [
+    {
+      "id": "pwc1",
+      "name": "Asimo",
+      "avatar": "/asimo.jpg",
+      "members": []
+    },
+    {
+      "id": "pwc2",
+      "name": "Bender",
+      "avatar": "/bender.png",
+      "members": []
+    },
+    {
+      "id": "pwc3",
+      "name": "C-3P0",
+      "avatar": "/c3p0.png",
+      "members": []
+    },
+    {
+      "id": "pwc4",
+      "name": "Eva",
+      "avatar": "/eva.png",
+      "members": []
+    },
+    {
+      "id": "pwc5",
+      "name": "Optimus",
+      "avatar": "/optimus.jpg",
+      "members": []
+    },
+    {
+      "id": "pwc6",
+      "name": "R2D2",
+      "avatar": "/r2d2.jpg",
+      "members": []
+    },
+    {
+      "id": "pwc7",
+      "name": "RoboCop",
+      "avatar": "/robocop.png",
+      "members": []
+    },
+    {
+      "id": "pwc8",
+      "name": "Sonny",
+      "avatar": "/sonny.jpg",
+      "members": []
+    },
+    {
+      "id": "pwc9",
+      "name": "Terminator",
+      "avatar": "/terminator.jpg",
+      "members": []
+    },
+    {
+      "id": "pwc10",
+      "name": "Wall-E",
+      "avatar": "/wall-e.jpg",
+      "members": []
+    }
+  ],
+  "pools": [
+    {
+      "id": "pwcpoola",
+      "tournament_id": "pwcmelb",
+      "teams": [
+        "pwc1",
+        "pwc2",
+        "pwc3",
+        "pwc4",
+        "pwc5"
+      ]
+    },
+    {
+      "id": "pwcpoolb",
+      "tournament_id": "pwcmelb",
+      "teams": [
+        "pwc6",
+        "pwc7",
+        "pwc8",
+        "pwc9",
+        "pwc10"
+      ]
+    }
+  ],
+  "pool_matches": [
+    {
+      "id": "1185580a-7766-47e3-a6b6-06b736f406f6",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc1",
+        "pwc5"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc1",
+        "lose": "pwc5",
+        "draw": null
+      }
+    },
+    {
+      "id": "1fbeb0a0-2a88-451b-8fed-a7d3217a399a",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc8",
+        "pwc10"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc8",
+        "lose": "pwc10",
+        "draw": null
+      }
+    },
+    {
+      "id": "6cceae22-1146-4541-ad4f-d0213d96e1ec",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc2",
+        "pwc4"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc4",
+        "lose": "pwc2",
+        "draw": null
+      }
+    },
+    {
+      "id": "56bf8026-0ce7-4634-9136-a6233ca8261b",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc7",
+        "pwc9"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc7",
+        "lose": "pwc9",
+        "draw": null
+      }
+    },
+    {
+      "id": "3f16bcf9-c8b8-4cf6-bf0b-0387e790219b",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc2",
+        "pwc3"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc3",
+        "lose": "pwc2",
+        "draw": null
+      }
+    },
+    {
+      "id": "abea2ffa-ad0e-4d4e-b4cb-0ea8ccbd0205",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc6",
+        "pwc10"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc6",
+        "lose": "pwc10",
+        "draw": null
+      }
+    },
+    {
+      "id": "053624f2-e3b2-4216-928e-282463d73b0d",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc3",
+        "pwc4"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc3",
+        "lose": "pwc4",
+        "draw": null
+      }
+    },
+    {
+      "id": "700bbbf4-9e4c-4790-979a-ea7ef51b5251",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc7",
+        "pwc10"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc7",
+        "lose": "pwc10",
+        "draw": null
+      }
+    },
+    {
+      "id": "6d02af13-ffab-4431-a437-3ea74567b4ee",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc7",
+        "pwc8"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc7",
+        "lose": "pwc8",
+        "draw": null
+      }
+    },
+    {
+      "id": "7559ab48-a445-486b-8c99-a54ef5da669a",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc1",
+        "pwc4"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc4",
+        "lose": "pwc1",
+        "draw": null
+      }
+    },
+    {
+      "id": "2bbca181-8b8a-423a-bb07-8f52a626f592",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc6",
+        "pwc8"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc6",
+        "lose": "pwc8",
+        "draw": null
+      }
+    },
+    {
+      "id": "bd8603b5-bc11-4491-be24-bcd9dcb5ee7c",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc1",
+        "pwc3"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc3",
+        "lose": "pwc1",
+        "draw": null
+      }
+    },
+    {
+      "id": "ff398f1f-b54b-483d-940a-acbfcb3d196b",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc2",
+        "pwc5"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc2",
+        "lose": "pwc5",
+        "draw": null
+      }
+    },
+    {
+      "id": "4b28accb-fcca-41d0-a672-7ff960435182",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc8",
+        "pwc9"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc9",
+        "lose": "pwc8",
+        "draw": null
+      }
+    },
+    {
+      "id": "8c39c74f-91e9-4c24-9305-6fb07eb55bb9",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc3",
+        "pwc5"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc3",
+        "lose": "pwc5",
+        "draw": null
+      }
+    },
+    {
+      "id": "5cd43034-73ab-4782-a6dc-7a46cf831868",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc6",
+        "pwc9"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc6",
+        "lose": "pwc9",
+        "draw": null
+      }
+    },
+    {
+      "id": "fbcb37ad-9270-4611-acc6-47a1be4abc60",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc9",
+        "pwc10"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc9",
+        "lose": "pwc10",
+        "draw": null
+      }
+    },
+    {
+      "id": "7abfe814-7be2-4e44-935d-2cf5f9e9bd2c",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc4",
+        "pwc5"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc4",
+        "lose": "pwc5",
+        "draw": null
+      }
+    },
+    {
+      "id": "ddebed2c-b8db-48d6-b0d2-0a2efa4e52c1",
+      "pool": "pwcpoolb",
+      "determined": true,
+      "teams": [
+        "pwc6",
+        "pwc7"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc7",
+        "lose": "pwc6",
+        "draw": null
+      }
+    },
+    {
+      "id": "7a630d46-4fa5-407e-8864-816bbb680f5a",
+      "pool": "pwcpoola",
+      "determined": true,
+      "teams": [
+        "pwc1",
+        "pwc2"
+      ],
+      "result": {
+        "resulted": true,
+        "win": "pwc2",
+        "lose": "pwc1",
+        "draw": null
+      }
+    }
+  ],
+  "finals": {
+    "semi": {
+      "matches": [
+        {
+          "id": "semi-1",
+          "determined": true,
+          "result": {
+            "resulted": true,
+            "win": "pwc6",
+            "lose": "pwc3"
+          },
+          "teams": [
+            "pwc3",
+            "pwc6"
+          ],
+          "placeholder": [
+            "Group A Winner",
+            "Group B Runner Up"
+          ]
+        },
+        {
+          "id": "semi-2",
+          "determined": true,
+          "result": {
+            "resulted": true,
+            "win": "pwc7",
+            "lose": "pwc4"
+          },
+          "teams": [
+            "pwc7",
+            "pwc4"
+          ],
+          "placeholder": [
+            "Group B Winner",
+            "Group A Runner Up"
+          ]
+        }
+      ]
+    },
+    "final": {
+      "matches": [
+        {
+          "id": "final",
+          "determined": true,
+          "result": {
+            "resulted": true,
+            "win": "pwc6",
+            "lose": "pwc7"
+          },
+          "teams": [
+            "pwc6",
+            "pwc7"
+          ],
+          "placeholder": [
+            "Semi Final 1 Winner",
+            "Semi Final 2 Winner"
+          ]
+        }
+      ]
+    }
+  },
+  "rounds_finished": {
+    "prelim": true,
+    "semi": true,
+    "final": true
+  }
+}
