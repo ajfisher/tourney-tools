@@ -2,8 +2,8 @@
     {
         "id": "pwcmelb",
         "secret": "ABC123",
-        "official": "Rhett Richardson / Andrew Fisher",
-        "name": "PwC STEM Robotics Challenge",
+        "official": "AJ Fisher",
+        "name": "Robotics Challenge",
         "date": "20170616",
         "rounds_finished": {
             "prelim": false,
