@@ -95,13 +95,11 @@ class Tournament extends Component {
                 this.setState({loading: false});
 
             }).catch((err) => {
-                console.log(err);
-                this.setState(null);
+                this.setState({loading: false, status: 404 });
             });
 
         }).catch((err) => {
-            console.log(err);
-            this.setState(null);
+            this.setState({loading: false, status: 404 });
         });
 
         //
@@ -275,7 +273,7 @@ class Tournament extends Component {
         console.log(this.state);
 
         // if good, start populating information
-        if (this.state == null) {
+        if (this.state == null || this.state.status === 404) {
             return (
                 <Container className="NotFound">
                     <p>This tournament cannot be found</p>
