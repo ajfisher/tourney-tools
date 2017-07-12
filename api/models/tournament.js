@@ -57,6 +57,20 @@ let tournamentSchema = new Schema({
     }
 });
 
+tournamentSchema.statics.authenticate = function(id, secret, cb) {
+    // checks the provided id and secret key and returns true / false depending
+    // on if correct or not.
+    //
+    this.query('id').eq(id).and().filter('secret').eq(secret).exec((err, matches) => {
+
+        if (err) cb(false);
+
+        cb( matches.count === 1 );
+    });
+
+
+};
+
 let Tournament = dynamoose.model('Tournament',tournamentSchema, options);
 
 module.exports = Tournament;
