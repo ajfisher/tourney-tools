@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import React, { Component } from 'react';
-import { Container, Grid, Header, Statistic } from 'semantic-ui-react';
+import { Container, Dimmer, Grid, Header, Loader, Statistic } from 'semantic-ui-react';
 
 // get custom components
 import DateFormat from '../../components/date';
@@ -24,6 +24,8 @@ class Tournament extends Component {
         const id = props.match.params.id;
 
         let tournament = null;
+
+        this.state = { loading: true };
 
         // need to get a tournament object
         fetch("/api/tournament/" + id).then((res) => {
@@ -79,7 +81,7 @@ class Tournament extends Component {
                 }
             }
             // now we know we have a tournament, get the pool matches
-            fetch("http://localhost:4000/tournament/" + id + "/matches").then((res) => {
+            fetch("/api/tournament/" + id + "/matches").then((res) => {
                 console.log(res);
                 if (! res.ok) {
                     throw new Error(res.json());
@@ -90,13 +92,16 @@ class Tournament extends Component {
                 tournament.pool_matches = matches;
 
                 this.setState(tournament);
+                this.setState({loading: false});
 
             }).catch((err) => {
                 console.log(err);
+                this.setState(null);
             });
 
         }).catch((err) => {
             console.log(err);
+            this.setState(null);
         });
 
         //
@@ -275,6 +280,14 @@ class Tournament extends Component {
                 <Container className="NotFound">
                     <p>This tournament cannot be found</p>
                 </Container>
+            );
+        }
+
+        if (this.state.loading) {
+            return (
+                <Dimmer active>
+                    <Loader size="massive">Loading tournament data</Loader>
+                </Dimmer>
             );
         }
 
