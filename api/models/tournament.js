@@ -64,11 +64,8 @@ tournamentSchema.statics.authenticate = function(id, secret, cb) {
     this.query('id').eq(id).and().filter('secret').eq(secret).exec((err, matches) => {
 
         if (err) cb(false);
-
-        cb( matches.count === 1 );
+        cb (matches.count === 1);
     });
-
-
 };
 
 let Tournament = dynamoose.model('Tournament',tournamentSchema, options);
