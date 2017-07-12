@@ -35,7 +35,6 @@ provider:
 
 plugins:
   - serverless-dynamodb-local
-  - serverless-s3-local
   - serverless-offline
 
 custom:
@@ -71,3 +70,9 @@ functions:
           method: get
           cors: true
 
+  matchUpdate:
+    handler: handlers/match.put
+    events:
+      - http:
+          path: match/{id}
+          method: put

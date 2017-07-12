@@ -29,7 +29,7 @@ class Tournament extends Component {
 
         // need to get a tournament object
         fetch("/api/tournament/" + id).then((res) => {
-            console.log(res);
+            //console.log(res);
             if (! res.ok) {
                 throw new Error(res.json());
             } else {
@@ -82,7 +82,7 @@ class Tournament extends Component {
             }
             // now we know we have a tournament, get the pool matches
             fetch("/api/tournament/" + id + "/matches").then((res) => {
-                console.log(res);
+                //console.log(res);
                 if (! res.ok) {
                     throw new Error(res.json());
                 } else {
