@@ -127,7 +127,7 @@ module.exports.put = (event, context, callback) => {
                     } else {
                         response = {
                             statusCode: 200,
-                            body: JSON.stringify({msg: "Match updated"})
+                            body: JSON.stringify(m)
                         };
                     }
                     callback(null, response);
