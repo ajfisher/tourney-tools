@@ -42,7 +42,7 @@ custom:
     port: 4000
   dynamodb:
     start:
-      port: 8000
+      port: 8001
       inMemory: true
 
 functions:

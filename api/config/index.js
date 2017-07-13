@@ -6,6 +6,7 @@ let aws_creds = {
     accessKeyId: process.env.AWS_ACCESS_KEY || 'AKID',
     secretAccessKey: process.env.AWS_SECRET || 'SECRET',
     region: process.env.AWS_REGION || 'us-east-1',
+    db: 'http://localhost:8001',
 };
 
 
