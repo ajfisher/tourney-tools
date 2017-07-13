@@ -10,7 +10,7 @@ import Preliminary from '../../components/prelim';
 import TeamList from '../../components/teamlist';
 
 // get custom libs
-import { load_state, save_state } from '../../lib/localstorage.js'
+import { save_state } from '../../lib/localstorage.js'
 
 // get data
 //import { tournaments } from '../../data/tournaments';
@@ -22,6 +22,17 @@ class Tournament extends Component {
     constructor(props) {
         super(props);
         const id = props.match.params.id;
+
+        this.load_data(id);
+
+        // update this process to start a web socket and send data that way
+        /**window.setInterval(()=>{
+            this.load_data(id);
+        }, 30000);**/
+    };
+
+    load_data = (id) => {
+        // gets the actual tournament data.
 
         let tournament = null;
 
@@ -43,41 +54,8 @@ class Tournament extends Component {
                 // add the finals section
                 // add finals details.
                 tournament.finals = {
-                    "semi": {
-                        matches: [
-                            {
-                                id: "semi-1",
-                                determined: false,
-                                result: {
-                                    resulted: false,
-                                },
-                                teams: [],
-                                placeholder: ["Group A Winner", "Group B Runner Up"],
-                            },
-                            {
-                                id: "semi-2",
-                                determined: false,
-                                result: {
-                                    resulted: false,
-                                },
-                                teams: [],
-                                placeholder: ["Group B Winner", "Group A Runner Up"],
-                            },
-                        ]
-                    },
-                    "final": {
-                        matches: [
-                            {
-                                id: "final",
-                                determined: false,
-                                result: {
-                                    resulted: false,
-                                },
-                                teams: [],
-                                placeholder: ["Semi Final 1 Winner", "Semi Final 2 Winner"],
-                            },
-                        ],
-                    },
+                    "semi": {},
+                    "final": {},
                 }
             }
             // now we know we have a tournament, get the pool matches
@@ -89,12 +67,19 @@ class Tournament extends Component {
                     return res.json();
                 }
             }).then((matches) => {
-                tournament.pool_matches = matches;
+                tournament.pool_matches = _.filter(matches, {type: 'group'});
+                tournament.finals.semi["matches"] = _.filter(matches, {type: 'semi'});
+                //console.log("semi", tournament.finals.semi);
+                tournament.finals.final.matches = _.filter(matches, {type: 'final'});
+                //console.log("final", tournament.finals.final);
 
+
+                //tournament.loading = false;
                 this.setState(tournament);
                 this.setState({loading: false});
 
             }).catch((err) => {
+                console.log(err);
                 this.setState({loading: false, status: 404 });
             });
 
@@ -102,34 +87,45 @@ class Tournament extends Component {
             this.setState({loading: false, status: 404 });
         });
 
-        //
-        /**const loaded_data = load_state(id);
-        // try to get data from localstorage first
-        if (loaded_data) {
-            console.log("Loading from state");
-            tournament = loaded_data;
-        } else {
-            console.log("Loading from data file");
-            tournament = tournaments.findById(id);
-            tournament.pool_matches = matches;
-        }**/
-
     };
 
     handleResult = (match) => {
         // this occurs when a result gets posted so we want to update the
         // results of the matches.
 
-        let matches = this.state.pool_matches;
-        let index = _.findIndex(matches, {'id': match.id});
-        matches[index] = match;
+        let request = new Request("/api/match/" + match.id, 
+            {
+                method: 'PUT',
+                headers: new Headers({
+                    'X-Tournament-Secret': 'ABC123',
+                }),
+                body: JSON.stringify(match),
+            });
 
-        this.setState({pool_matches: matches});
+        console.log(request);
 
-        this.checkRoundComplete(matches, 'prelim');
+        fetch(request).then((res) => {
+            //console.log(res);
+            if (! res.ok) {
+                throw new Error(res.json());
+            } else {
+                return res.json();
+            }
+        }).then((m) => {
 
-        // save the data to localstorage for later usage.
-        save_state(this.state.id, this.state);
+            console.log(m);
+
+            let matches = this.state.pool_matches;
+            let index = _.findIndex(matches, {'id': match.id});
+            matches[index] = m;
+
+            this.setState({pool_matches: matches});
+
+            this.checkRoundComplete(matches, 'prelim');
+
+        }).catch((err) => {
+            console.log("Couldn't update match", err);
+        });
     };
 
     handleFinalResult = (match, finalType) => {

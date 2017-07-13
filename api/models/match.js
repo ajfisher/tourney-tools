@@ -7,7 +7,7 @@ dynamoose.AWS.config.update(app_config.aws);
 
 const Schema = dynamoose.Schema;
 
-dynamoose.local();
+dynamoose.local(app_config.aws.db);
 
 const options = {
     create: true,
@@ -28,6 +28,10 @@ let matchSchema = new Schema({
     pool: {
         type: String,
     },
+    type: {
+        type: String,
+        default: "group",
+    },
     determined: {
         type: Boolean,
         required: true,
@@ -45,7 +49,8 @@ let matchSchema = new Schema({
     },
     teams: {
         type: [String],
-        required: false,
+        required: true,
+        default: [],
     },
     placeholder: {
         type: [String],

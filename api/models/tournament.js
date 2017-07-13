@@ -7,7 +7,7 @@ dynamoose.AWS.config.update(app_config.aws);
 
 const Schema = dynamoose.Schema;
 
-dynamoose.local();
+dynamoose.local(app_config.aws.db);
 
 const options = {
     create: true,

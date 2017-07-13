@@ -29,7 +29,6 @@ module.exports.get = (event, context, callback) => {
                 body: JSON.stringify({ msg: `Match ${id} not found`}),
             };
 
-
         } else {
 
             response = {
