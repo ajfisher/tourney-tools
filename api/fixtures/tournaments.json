@@ -10,6 +10,14 @@
             "semi": false,
             "final": false
         },
+        "finals": {
+            "semi": {
+                "matches": []
+            },
+            "final": {
+                "matches":[]
+            }
+        },
         "pools": [
             {
                 "id": "poola",
