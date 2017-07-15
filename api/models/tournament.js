@@ -42,6 +42,11 @@ let tournamentSchema = new Schema({
             final: false,
         },
     },
+    finals: {
+        type: Object,
+        required: true,
+        default: {},
+    },
     pools: {
         type: 'list',
         list: [{

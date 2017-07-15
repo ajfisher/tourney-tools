@@ -65,7 +65,7 @@ class Finals extends Component {
             </Container>
         )
     }
-
 }
 
 export default Finals
+export { final_rounds }
