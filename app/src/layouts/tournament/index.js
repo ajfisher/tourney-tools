@@ -11,8 +11,6 @@ import { final_rounds } from '../../components/finals';
 import Preliminary from '../../components/prelim';
 import TeamList from '../../components/teamlist';
 
-// get custom libs
-import { save_state } from '../../lib/localstorage.js'
 
 class Tournament extends Component {
     // sets up the Tournament layout
@@ -161,7 +159,6 @@ class Tournament extends Component {
             this.advanceRound(round_type);
         }
 
-        save_state(this.state_id, this.state);
     }
 
     advanceRound(round_type) {
