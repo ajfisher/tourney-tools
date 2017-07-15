@@ -13,6 +13,8 @@ import TeamList from '../../components/teamlist';
 // get custom libs
 import { save_state } from '../../lib/localstorage.js'
 
+const SECRET = 'ABC123';
+
 class Tournament extends Component {
     // sets up the Tournament layout
 
@@ -55,7 +57,10 @@ class Tournament extends Component {
 
                 // attach the matches to the right place in tournament object
                 tournament.pool_matches = _.filter(matches, {type: 'group'});
-                _.forEach(tournament.finals, (obj, finaltype) => {
+                tournament.finals = {};
+
+                tournament.finals_required.forEach((finaltype) => {
+                    tournament.finals[finaltype] = {};
                     tournament.finals[finaltype]["matches"] = _.filter(matches, {type: finaltype});
                 });
 
@@ -63,16 +68,18 @@ class Tournament extends Component {
                 this.setState({loading: false});
 
             }).catch((err) => {
+                console.log(err);
                 this.setState({loading: false, status: 404 });
             });
 
         }).catch((err) => {
+            console.log(err);
             this.setState({loading: false, status: 404 });
         });
 
     };
 
-    handleResult = (match) => {
+    handleResult = (match, match_type) => {
         // this occurs when a result gets posted so we want to update the
         // results of the matches.
 
@@ -80,7 +87,7 @@ class Tournament extends Component {
             {
                 method: 'PUT',
                 headers: new Headers({
-                    'X-Tournament-Secret': 'ABC123',
+                    'X-Tournament-Secret': SECRET,
                 }),
                 body: JSON.stringify(match),
             });
@@ -94,35 +101,29 @@ class Tournament extends Component {
             }
         }).then((m) => {
 
-            let matches = this.state.pool_matches;
-            let index = _.findIndex(matches, {'id': match.id});
-            matches[index] = m;
+            let matches = [];
+            if (match_type === 'prelim') {
+                matches = this.state.pool_matches;
+                let index = _.findIndex(matches, {'id': match.id});
+                matches[index] = m;
 
-            this.setState({pool_matches: matches});
+                this.setState({pool_matches: matches});
+            } else {
+                let finals = this.state.finals;
+                matches = finals[match_type].matches;
+                let index = _.findIndex(matches, {'id': match.id});
+                matches[index] = m;
+                // update the finals again.
+                finals[match_type].matches = matches;
 
-            this.checkRoundComplete(matches, 'prelim');
+                this.setState({finals: finals});
+            }
+
+            this.checkRoundComplete(matches, match_type);
 
         }).catch((err) => {
             console.log("Couldn't update match", err);
         });
-    };
-
-    handleFinalResult = (match, finalType) => {
-        // refactor this out as it's a duplicate of above
-        //
-        let finals = this.state.finals;
-        let matches = finals[finalType].matches;
-        let index = _.findIndex(matches, {'id': match.id});
-        matches[index] = match;
-        // update the finals again.
-        finals[finalType].matches = matches;
-
-        this.setState({finals: finals});
-
-        this.checkRoundComplete(matches, finalType);
-
-        // save the data to localstorage for later usage.
-        //save_state(this.state.id, this.state);
     };
 
     handleTeamChange = (team) => {
@@ -160,12 +161,14 @@ class Tournament extends Component {
         let { rounds_finished } = this.state;
         rounds_finished[round_type] = true;
 
+        const clean_result = { resulted: false, win: null, lose: null, draw: null };
         // TODO this needs to update to server
         this.setState({ rounds_finished: rounds_finished});
 
         if (round_type === "prelim") {
             const pools = this.state.pools;
             const matches = this.state.pool_matches;
+
 
             let elim_list = [];
 
@@ -228,11 +231,10 @@ class Tournament extends Component {
             for (let i=0; i < finals[elim_round].matches.length; i++) {
 
                 finals[elim_round].matches[i].determined = true;
+                finals[elim_round].matches[i].result = clean_result;
 
-                // create a teams object if it doesn't exist
-                if (typeof(finals[elim_round].matches[i].teams) === 'undefined') {
-                    finals[elim_round].matches[i].teams = [];
-                }
+                // make the teams object blank so is always fresh
+                finals[elim_round].matches[i].teams = [];
 
                 // now assign the teams
                 finals[elim_round].matches[i].teams.push(elim_list[i].winner);
@@ -247,23 +249,58 @@ class Tournament extends Component {
 
             // now we need to push all of this data up to the server to populate
             // the appropriate tournament and match data.
-            // TODO push to server
+            this.publish_next_round(elim_round, finals[elim_round]);
             this.setState({ finals: finals });
 
         } else if ( round_type === 'semi' ) {
 
-            // basically get the winners of the semi and put them in the final
+            // basically get the winners of the 2 semis and put them in the final
             let finals = this.state.finals;
             let semis = finals.semi.matches;
+
+            finals.final.matches[0].teams = [];
+            finals.final.matches[0].result = clean_result;
+
             finals.final.matches[0].teams.push(semis[0].result.win);
             finals.final.matches[0].teams.push(semis[1].result.win);
             finals.final.matches[0].determined = true;
 
-            // TODO push all the details to the server for the determined matches
-            // and tournament
+            this.publish_next_round("final", finals.final);
             this.setState({ finals: finals });
         }
-    }
+    };
+
+    publish_next_round(round, new_round_details) {
+        // this method generically deals with the sending of round completion
+        // information to the server to process and store.
+
+        const { id } = this.state;
+        const url = "/api/tournament/" + id + "/rounds/" + round;
+
+        const options = {
+            method: 'PUT',
+            headers: new Headers({
+                'X-Tournament-Secret': SECRET,
+            }),
+            body: JSON.stringify(new_round_details),
+        }
+
+        let request = new Request(url, options);
+
+        fetch(request).then((res) => {
+            if (! res.ok) {
+                throw new Error(res.json());
+            } else {
+                return res.json();
+            }
+        }).then((msg) => {
+            // write now we don't do anything with this info.
+            console.log(msg);
+        }).catch((err) => {
+            console.log("Couldn't update tournament round", err);
+        });
+    };
+
 
     render() {
         console.log(this.state);
@@ -297,7 +334,7 @@ class Tournament extends Component {
                     />
                     <Finals tournament={ this.state }
                         matches={ this.state.finals }
-                        onResult={ this.handleFinalResult } />
+                        onResult={ this.handleResult } />
                 </Grid.Column>
                 <Grid.Column className="supplementary" as="aside" width={5}>
                     <Header as="h3">

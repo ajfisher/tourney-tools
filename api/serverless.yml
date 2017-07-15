@@ -62,6 +62,14 @@ functions:
           method: get
           cors: true
 
+  tournamentPublishRound:
+    handler: handlers/rounds.put
+    events:
+      - http:
+          path: tournament/{id}/rounds/{round_type}
+          method: put
+          cors: true
+
   matchGet:
     handler: handlers/match.get
     events:

@@ -93,7 +93,7 @@ class Preliminary extends Component {
     handlePoolClick = (e, { id }) => this.setState({ active_pool: id });
 
     // passes back to the tournament to update the result details
-    handleResult = (match) => this.props.onResult(match);
+    handleResult = (match) => this.props.onResult(match, 'prelim');
 
     render () {
 
