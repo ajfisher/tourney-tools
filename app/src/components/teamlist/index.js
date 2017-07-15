@@ -43,9 +43,6 @@ class TeamList extends Component {
         this.handle_close(team_index)();
     }
 
-    // TODO 
-    // - Add ability to add new team members
-    // - Wrap the geopattern stuff as a component.
     render () {
         return (
             <Table unstackable singleLine striped compact>
@@ -66,7 +63,7 @@ class TeamList extends Component {
                                 }
                             >
                                 <Modal.Content>
-                                    <TeamDetails team={team}
+                                    <TeamDetails team={team} authed={ this.props.authed }
                                         onSave={ this.save_team(index) }
                                         onClose={ this.handle_close(index) }
                                     />

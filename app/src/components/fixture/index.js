@@ -87,7 +87,6 @@ class Fixture extends Component {
                         //let match_determined = match.determined;
 
                         if (match.determined) {
-
                             team_a = _.find(teams, {'id': match.teams[0]});
                             team_b = _.find(teams, {'id': match.teams[1]});
                         } else {
@@ -117,7 +116,7 @@ class Fixture extends Component {
                         const card_colour = match.result.resulted ? 'green' : 'red';
 
                         let record_result = null;
-                        if (match.determined) {
+                        if (match.determined && this.props.authed) {
                             record_result = <Result
                                         match={ match }
                                         teamA={ team_a } teamB={team_b}
@@ -157,4 +156,3 @@ class Fixture extends Component {
 }
 
 export default Fixture;
-

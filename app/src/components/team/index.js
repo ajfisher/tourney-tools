@@ -179,17 +179,29 @@ class TeamDetails extends Component {
                 </Segment>
             )
         } else {
-            return (
-                <Segment>
-                    <Container textAlign="center">
-                        <Button content="Edit team" primary
-                            onClick={ this.switch_modes }/>
-                        <Button basic secondary
-                            onClick={ this.cancel_changes }
-                            content="Cancel" />
-                    </Container>
-                </Segment>
-            )
+            if (this.props.authed ) {
+                return (
+                    <Segment>
+                        <Container textAlign="center">
+                            <Button content="Edit team" primary
+                                onClick={ this.switch_modes }/>
+                            <Button basic secondary
+                                onClick={ this.cancel_changes }
+                                content="Cancel" />
+                        </Container>
+                    </Segment>
+                )
+            } else {
+                return(
+                    <Segment>
+                        <Container textAlign="center">
+                            <Button basic secondary
+                                onClick={ this.cancel_changes }
+                                content="Close" />
+                        </Container>
+                    </Segment>
+                )
+            }
         }
     }
 

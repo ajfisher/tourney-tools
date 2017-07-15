@@ -7,6 +7,8 @@ const Tournament = require("../models/tournament");
 module.exports.get = (event, context, callback) => {
 
     let id = null;
+    let secret = null;
+
     // check if we even got an ID sent through.
     if (typeof(event.pathParameters['id']) === 'undefined') {
         const response = {
@@ -17,6 +19,11 @@ module.exports.get = (event, context, callback) => {
         callback(null, response);
     } else {
         id = event.pathParameters.id;
+    }
+
+    // check if we have a secret we're able to use which will determine auth
+    if (typeof(event.headers["X-Tournament-Secret"]) !== 'undefined') {
+        secret = event.headers["X-Tournament-Secret"];
     }
 
     Tournament.get({id: id})
@@ -32,6 +39,12 @@ module.exports.get = (event, context, callback) => {
             callback(null, response);
 
         } else {
+
+            if (secret && (t.secret === secret)) {
+                t.authed = true;
+            } else {
+                t.authed = false;
+            }
 
             // remove the secret key from the message
             t.secret = "";

@@ -105,7 +105,7 @@ class Preliminary extends Component {
         if (active_panel === 'leaderboard') {
             panel =  <Leaderboard teams={teams} standings={standings} />;
         } else {
-            panel = <Fixture teams={teams}
+            panel = <Fixture teams={teams} authed={ this.props.authed }
                     matches={matches}
                     onResult={ this.handleResult } />;
         };

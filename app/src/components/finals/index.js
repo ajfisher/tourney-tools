@@ -33,6 +33,7 @@ class Final extends Component {
                     matches={this.props.matches}
                     finalType={finalType}
                     onResult={ this.handleResult }
+                    authed={ this.props.authed }
                 />
             </Container>
         )
@@ -58,6 +59,7 @@ class Finals extends Component {
                             teams={ teams }
                             matches={ matches }
                             onResult={ this.handleResult }
+                            authed={ this.props.authed }
                         />
                     )
                 })

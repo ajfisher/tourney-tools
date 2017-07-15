@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import { parse } from 'qs';
 import React, { Component } from 'react';
 import { Container, Dimmer, Grid, Header, Loader, Statistic } from 'semantic-ui-react';
 
@@ -13,8 +14,6 @@ import TeamList from '../../components/teamlist';
 // get custom libs
 import { save_state } from '../../lib/localstorage.js'
 
-const SECRET = 'ABC123';
-
 class Tournament extends Component {
     // sets up the Tournament layout
 
@@ -22,21 +21,34 @@ class Tournament extends Component {
         super(props);
         const id = props.match.params.id;
 
-        this.load_data(id);
+        const qs = parse(props.location.search.substr(1));
+
+        let secret = qs.sk || null;
+
+        this.load_data(id, secret);
 
         // TODO update process to start a web socket and send data that way
     };
 
-    load_data = (id) => {
+    load_data = (id, secret) => {
         // gets the actual tournament data.
 
         let tournament = null;
 
-        this.state = { loading: true };
+        this.state = { loading: true, sk: secret };
 
+        const options = {
+            method: 'GET',
+            headers: new Headers({
+                'X-Tournament-Secret': secret || '',
+            }),
+        }
+
+        const url = "/api/tournament/" + id;
+
+        let request = new Request(url, options);
         // get the tournament data from the server
-        fetch("/api/tournament/" + id).then((res) => {
-            //console.log(res);
+        fetch(request).then((res) => {
             if (! res.ok) {
                 throw new Error(res.json());
             } else {
@@ -87,7 +99,7 @@ class Tournament extends Component {
             {
                 method: 'PUT',
                 headers: new Headers({
-                    'X-Tournament-Secret': SECRET,
+                    'X-Tournament-Secret': this.state.sk,
                 }),
                 body: JSON.stringify(match),
             });
@@ -162,13 +174,12 @@ class Tournament extends Component {
         rounds_finished[round_type] = true;
 
         const clean_result = { resulted: false, win: null, lose: null, draw: null };
-        // TODO this needs to update to server
+
         this.setState({ rounds_finished: rounds_finished});
 
         if (round_type === "prelim") {
             const pools = this.state.pools;
             const matches = this.state.pool_matches;
-
 
             let elim_list = [];
 
@@ -268,6 +279,7 @@ class Tournament extends Component {
             this.publish_next_round("final", finals.final);
             this.setState({ finals: finals });
         }
+        // TODO add other rounds numbers in here
     };
 
     publish_next_round(round, new_round_details) {
@@ -280,7 +292,7 @@ class Tournament extends Component {
         const options = {
             method: 'PUT',
             headers: new Headers({
-                'X-Tournament-Secret': SECRET,
+                'X-Tournament-Secret': this.state.sk,
             }),
             body: JSON.stringify(new_round_details),
         }
@@ -322,6 +334,8 @@ class Tournament extends Component {
             );
         }
 
+        const { authed } = this.state;
+
         return (
             <Grid stackable columns={2} padded className="main">
                 <Grid.Column className="tournament" as="section" width={11}>
@@ -331,10 +345,13 @@ class Tournament extends Component {
                         tournament={ this.state }
                         matches={ this.state.pool_matches }
                         onResult={ this.handleResult }
+                        authed={ authed }
                     />
                     <Finals tournament={ this.state }
                         matches={ this.state.finals }
-                        onResult={ this.handleResult } />
+                        onResult={ this.handleResult }
+                        authed= { authed }
+                    />
                 </Grid.Column>
                 <Grid.Column className="supplementary" as="aside" width={5}>
                     <Header as="h3">
@@ -355,6 +372,7 @@ class Tournament extends Component {
                     <TeamList
                         teams={ this.state.teams }
                         onTeamChange={ this.handleTeamChange }
+                        authed={ authed }
                     />
 
                     <section className="stats">
