@@ -1,4 +1,6 @@
 'use strict';
+const crypto = require('crypto');
+const shortid = require('shortid');
 
 const app_config = require('../config');
 
@@ -19,6 +21,7 @@ const options = {
 let tournamentSchema = new Schema({
     id: {
         type: String,
+        default: shortid.generate,
         hashKey: true,
     },
     name: {
@@ -29,6 +32,10 @@ let tournamentSchema = new Schema({
     },
     secret: {
         type: String,
+        required: true,
+        default: () => {
+            return crypto.randomBytes(20).toString('hex');
+        },
     },
     date: {
         type: Date,

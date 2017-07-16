@@ -1,5 +1,7 @@
 'use strict';
 
+const shortid = require('shortid');
+
 const app_config = require('../config');
 
 const dynamoose = require('dynamoose');
@@ -24,10 +26,14 @@ const teamSchema = new Schema({
             rangeKey: 'tournament',
             name: 'TournamentRangeIndex',
         },
+        default: shortid.generate,
     },
     name: {
         type: String,
         required: true,
+        default: () => {
+            return "Team " + shortid.generate().substr(3);
+        },
     },
     avatar: {
         type: String,

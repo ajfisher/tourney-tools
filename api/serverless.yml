@@ -46,6 +46,15 @@ custom:
       inMemory: true
 
 functions:
+
+  tournamentCreate:
+    handler: handlers/tournament.post
+    events:
+      - http:
+          path: tournament
+          method: post
+          cors: true
+
   tournamentGet:
     handler: handlers/tournament.get
     events:

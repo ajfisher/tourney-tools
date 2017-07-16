@@ -6,6 +6,7 @@ import { Container, Divider, Header } from 'semantic-ui-react';
 import Fixture from '../fixture';
 
 const final_rounds = {
+    "1": ["final"],
     "2": [ "semi", "final", ],
     "4": [ "quarter", "semi", "final" ],
     "8": [ "round16", "quarter", "semi", "final" ]

@@ -5,7 +5,6 @@ import { Container, Form, Header, Input} from 'semantic-ui-react';
 class CreateTournament extends Component {
     // sets up the create Tournament Form.
 
-
     handle_submit = e => {
         // now we get all of the data and batch it up
         e.preventDefault();
@@ -13,9 +12,41 @@ class CreateTournament extends Component {
         console.log(this.refs);
         console.log(this.refs.official.inputRef.value);
 
+        let new_tournament = {};
+        let validated = true;
+
         _.forEach(this.refs, (field, key) => {
-            console.log(key, field.inputRef.value);
+            if (! field.inputRef.value) {
+                validated = false;
+            } else {
+                new_tournament[key] = field.inputRef.value;
+            }
         });
+
+        if (validated) {
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(new_tournament),
+            }
+
+            const url = "/api/tournament/";
+
+            let request = new Request(url, options);
+
+            console.log(request);
+            // get the tournament data from the server
+            fetch(request).then((res) => {
+                if (! res.ok) {
+                    throw new Error(res.json());
+                } else {
+                    return res.json();
+                }
+            }).then((data) => {
+                console.log(data);
+            });
+        } else {
+            console.log("post the error view back");
+        }
     }
 
     render() {
@@ -29,7 +60,7 @@ class CreateTournament extends Component {
 
                     <Form.Field width="10">
                         <Input label="Event name" name="name"
-                            ref="tname"
+                            ref="name"
                             placeholder="What is the name of your tournament / event?"
                             type="text">
 
@@ -46,7 +77,7 @@ class CreateTournament extends Component {
                     </Form.Field>
                     <Form.Field width="4">
                         <Input label="Teams" placeholder="#" type="number"
-                            name="teams" ref="teams"/>
+                            name="no_team" ref="no_teams"/>
                     </Form.Field>
                     <Form.Button content="Create tournament" size="huge" type="submit" />
                 </Form>

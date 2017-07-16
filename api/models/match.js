@@ -1,8 +1,10 @@
 'use strict';
 
+const dynamoose = require('dynamoose');
+const uuid = require('uuid/v4');
+
 const app_config = require('../config');
 
-const dynamoose = require('dynamoose');
 dynamoose.AWS.config.update(app_config.aws);
 
 const Schema = dynamoose.Schema;
@@ -20,6 +22,7 @@ let matchSchema = new Schema({
     id: {
         type: String,
         hashKey: true,
+        default: uuid,
     },
     tournament: {
         type: String,

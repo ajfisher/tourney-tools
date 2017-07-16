@@ -16,6 +16,7 @@
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "serverless": "^1.17.0",
+    "shortid": "^2.2.8",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
