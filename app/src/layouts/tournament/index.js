@@ -275,6 +275,22 @@ class Tournament extends Component {
 
             this.publish_next_round("final", finals.final);
             this.setState({ finals: finals });
+        } else if (round_type === 'quarter' ) {
+            let finals = this.state.finals;
+            let quarters = finals.quarter.matches;
+
+            for (let i = 0; i < 2; i++) {
+                let semi = finals.semi.matches[i];
+                semi.teams = [];
+                semi.result = clean_result;
+                semi.teams.push(quarters[i*2].result.win);
+                semi.teams.push(quarters[i*2 + 1].result.win);
+                semi.determined = true;
+                finals.semi.matches[i] = semi;
+            }
+
+            this.publish_next_round("semi", finals.semi);
+            this.setState({finals: finals});
         }
         // TODO add other rounds numbers in here
     };
@@ -304,7 +320,7 @@ class Tournament extends Component {
             }
         }).then((msg) => {
             // write now we don't do anything with this info.
-            console.log(msg);
+            //console.log(msg);
         }).catch((err) => {
             console.log("Couldn't update tournament round", err);
         });
