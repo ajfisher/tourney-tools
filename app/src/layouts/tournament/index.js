@@ -265,11 +265,16 @@ class Tournament extends Component {
                 // now assign the teams
                 finals[elim_round].matches[i].teams.push(elim_list[i].winner);
 
-                // do this so we swap the groups around winner vs runner up
-                if (i % 2 === 0) {
-                    finals[elim_round].matches[i].teams.push(elim_list[i+1].runner);
+                if (pools.length === 1) {
+                    // special case of a single pool prelim going to final
+                    finals[elim_round].matches[i].teams.push(elim_list[i].runner);
                 } else {
-                    finals[elim_round].matches[i].teams.push(elim_list[i-1].runner);
+                    // do this so we swap the groups around winner vs runner up
+                    if (i % 2 === 0) {
+                        finals[elim_round].matches[i].teams.push(elim_list[i+1].runner);
+                    } else {
+                        finals[elim_round].matches[i].teams.push(elim_list[i-1].runner);
+                    }
                 }
             }
 

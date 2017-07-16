@@ -207,8 +207,8 @@ module.exports.post = (event, context, callback) => {
                                 if (final === "final") {
                                     mq.push({
                                         type: final,
-                                        team_a: "Semi Final 1 Winner",
-                                        team_b: "Semi Final 2 Winner",
+                                        team_a: (no_pools === 1) ? "Group Winner" : "Semi Final 1 Winner",
+                                        team_b: (no_pools === 1) ? "Group runner Up" : "Semi Final 2 Winner",
                                     });
                                 } else if (final === "semi") {
                                     // if we're 2 pools then we take group stage,
