@@ -4,16 +4,7 @@ import { Button, Container, Menu } from 'semantic-ui-react';
 
 import CreateTournament from '../../layouts/createTournament/';
 import Tournament from '../../layouts/tournament/';
-
-class Home extends Component {
-    render() {
-        return (
-            <div>
-                <h2>Welcome to Tourney Tools</h2>
-            </div>
-        );
-    }
-}
+import Home from '../../layouts/home/';
 
 class Base extends Component {
     // this is the base structure for the entire app and provides the top
@@ -53,7 +44,12 @@ class Base extends Component {
                     <Route path="/tournament/:id/*" component={Tournament} />
                 </Switch>
                 <Container as="footer" textAlign="center">
-                    <p>&copy; 2017 ajfisher</p>
+                    <p>
+                        Tournament manager, hand-crafted
+                        by <a href="https://twitter.com/ajfisher">ajfisher</a> at
+                        Rocket Melbourne. Source code available
+                        at <a href="https://github.com/ajfisher/tourney-tools">GitHub</a>
+                    </p>
                 </Container>
             </main>
         );
