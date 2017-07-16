@@ -1,16 +1,36 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Container, Form, Header, Input} from 'semantic-ui-react';
+import { Button, Container, Dimmer, Form, Header, Input, Loader} from 'semantic-ui-react';
 
 class CreateTournament extends Component {
     // sets up the create Tournament Form.
 
+    constructor(props) {
+        super(props);
+
+        // use mode to determine if we're in `create` or `review` mode
+        // to route appropriate response.
+        this.state = {
+            mode: 'create',
+            loading: false,
+        };
+    }
+
+    view_tournament = e => {
+        // now we simply off load the to the appropriate tournament view
+
+        const { tournament } = this.state;
+        let url = "/tournament/" + tournament.id + "/?sk=" + tournament.secret;
+        url += "&tutorial=1";
+        this.props.history.push(url);
+    }
+
     handle_submit = e => {
         // now we get all of the data and batch it up
         e.preventDefault();
-        console.log("in here processing the form");
-        console.log(this.refs);
-        console.log(this.refs.official.inputRef.value);
+        //console.log("in here processing the form");
+        //console.log(this.refs);
+        //console.log(this.refs.official.inputRef.value);
 
         let new_tournament = {};
         let validated = true;
@@ -24,6 +44,9 @@ class CreateTournament extends Component {
         });
 
         if (validated) {
+
+            this.setState({loading: true});
+
             const options = {
                 method: 'POST',
                 body: JSON.stringify(new_tournament),
@@ -33,7 +56,6 @@ class CreateTournament extends Component {
 
             let request = new Request(url, options);
 
-            console.log(request);
             // get the tournament data from the server
             fetch(request).then((res) => {
                 if (! res.ok) {
@@ -42,47 +64,97 @@ class CreateTournament extends Component {
                     return res.json();
                 }
             }).then((data) => {
-                console.log(data);
+                //console.log(data);
+                this.setState({loading: false, mode: 'review', tournament: data});
+
             });
         } else {
+            this.setState({loading: false});
             console.log("post the error view back");
         }
     }
 
     render() {
-        return (
-            <Container className="create">
-                <Header as="h1">Create a new tournament</Header>
 
-                <Form size="huge" onSubmit={ this.handle_submit }>
-                    <p>To create a new tournament, please fill in the details
-                    below. All fields are required</p>
+        const { mode, loading } = this.state;
 
-                    <Form.Field width="10">
-                        <Input label="Event name" name="name"
-                            ref="name"
-                            placeholder="What is the name of your tournament / event?"
-                            type="text">
+        if (loading) {
+            return (
+                <Dimmer active>
+                    <Loader size="massive">Creating tournament</Loader>
+                </Dimmer>
+            )
+        }
 
-                        </Input>
-                    </Form.Field>
-                    <Form.Field width="10">
-                        <Input label="Your name" name="official" ref="official"
-                            placeholder="Your name or the name of the organiser?"
-                            type="text" />
-                    </Form.Field>
-                    <Form.Field width="6">
-                        <Input label="Date" name="date" ref="date"
-                            type="date" />
-                    </Form.Field>
-                    <Form.Field width="4">
-                        <Input label="Teams" placeholder="#" type="number"
-                            name="no_team" ref="no_teams"/>
-                    </Form.Field>
-                    <Form.Button content="Create tournament" size="huge" type="submit" />
-                </Form>
-            </Container>
-        );
+        if (mode === 'create') {
+
+            return (
+                <Container className="create">
+                    <Header as="h1">Create a new tournament</Header>
+
+                    <Form size="huge" onSubmit={ this.handle_submit }>
+                        <p>To create a new tournament, please fill in the details
+                        below. All fields are required</p>
+
+                        <Form.Field width="10">
+                            <Input label="Event name" name="name"
+                                ref="name"
+                                placeholder="What is the name of your tournament / event?"
+                                type="text">
+
+                            </Input>
+                        </Form.Field>
+                        <Form.Field width="10">
+                            <Input label="Your name" name="official" ref="official"
+                                placeholder="Your name or the name of the organiser?"
+                                type="text" />
+                        </Form.Field>
+                        <Form.Field width="6">
+                            <Input label="Date" name="date" ref="date"
+                                type="date" />
+                        </Form.Field>
+                        <Form.Field width="4">
+                            <Input label="Teams" placeholder="#" type="number"
+                                name="no_team" ref="no_teams"/>
+                        </Form.Field>
+                        <Form.Button content="Create tournament" size="huge" type="submit" primary />
+                    </Form>
+                </Container>
+            );
+        }
+
+
+        if (mode === 'review') {
+            const { tournament } = this.state;
+            const {host, protocol } = window.location;
+
+            return (
+                <Container className="review">
+                    <Header as="h1">Your tournament has been created</Header>
+                    <p>The tournament has been made and now you are ready to
+                    start customising the teams and running the matches.</p>
+                    <p>The links below will take you to your tournament page.
+                    Give the Share Link to anyone you want to
+                    follow the tournament results. The Edit Link
+                    will unlock the tournament and allow anyone to update the
+                    details so share it with care.</p>
+                    <Header as="h2">Share link</Header>
+                    <p>{protocol + "//" + host }/tournament/{tournament.id}</p>
+                    <Header as="h2">Edit link</Header>
+                    <p>{protocol + "//" + host }/tournament/{tournament.id}/?sk={tournament.secret}</p>
+
+                    <Button
+                        size="huge" icon='right arrow' labelPosition='right'
+                        primary
+                        content="Go to the tournament screen"
+                        onClick={ this.view_tournament }
+                    />
+               </Container>
+            )
+        }
+
+
+
     }
 }
 
