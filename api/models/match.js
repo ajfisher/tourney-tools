@@ -9,7 +9,9 @@ dynamoose.AWS.config.update(app_config.aws);
 
 const Schema = dynamoose.Schema;
 
-dynamoose.local(app_config.aws.db);
+if (process.env.DDB_LOCAL === 'true') {
+    dynamoose.local(app_config.aws.db);
+}
 
 const options = {
     create: true,
