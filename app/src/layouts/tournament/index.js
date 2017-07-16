@@ -31,8 +31,6 @@ class Tournament extends Component {
     load_data = (id, secret) => {
         // gets the actual tournament data.
 
-        let tournament = null;
-
         this.state = { loading: true, sk: secret };
 
         const options = {
@@ -54,33 +52,7 @@ class Tournament extends Component {
             }
         }).then((data) => {
 
-            tournament = data;
-
-            // now we know we have a tournament, get the pool matches
-            fetch("/api/tournament/" + id + "/matches").then((res) => {
-                if (! res.ok) {
-                    throw new Error(res.json());
-                } else {
-                    return res.json();
-                }
-            }).then((matches) => {
-
-                // attach the matches to the right place in tournament object
-                tournament.pool_matches = _.filter(matches, {type: 'group'});
-                tournament.finals = {};
-
-                tournament.finals_required.forEach((finaltype) => {
-                    tournament.finals[finaltype] = {};
-                    tournament.finals[finaltype]["matches"] = _.filter(matches, {type: finaltype});
-                });
-
-                this.setState(tournament);
-                this.setState({loading: false});
-
-            }).catch((err) => {
-                console.log(err);
-                this.setState({loading: false, status: 404 });
-            });
+            this.load_matches(data);
 
         }).catch((err) => {
             console.log(err);
@@ -88,6 +60,55 @@ class Tournament extends Component {
         });
 
     };
+
+    load_matches(tournament_data) {
+        // use this to load or reload the match data
+
+        let tournament = {};
+
+        if (typeof(tournament_data) === "undefined") {
+            tournament = this.state;
+        } else {
+            tournament = tournament_data;
+        }
+
+        const { id } = tournament;
+
+        // now we know we have a tournament, get the pool matches
+        fetch("/api/tournament/" + id + "/matches").then((res) => {
+            if (! res.ok) {
+                throw new Error(res.json());
+            } else {
+                return res.json();
+            }
+        }).then((matches) => {
+
+            // attach the matches to the right place in tournament object
+            tournament.pool_matches = _.filter(matches, {type: 'group'});
+            tournament.finals = {};
+
+            tournament.finals_required.forEach((finaltype) => {
+                tournament.finals[finaltype] = {};
+                tournament.finals[finaltype]["matches"] = _.filter(matches, {type: finaltype});
+            });
+
+            this.setState(tournament);
+
+            if (this.state.loading) {
+                this.setState({loading: false});
+            }
+
+            if (! this.state.match_refreshing && ! this.state.sk) {
+                setInterval(this.load_matches.bind(this), 60000);
+                this.setState({match_refreshing: true});
+            }
+
+        }).catch((err) => {
+            console.log(err);
+            this.setState({loading: false, status: 404 });
+        });
+    };
+
 
     handleResult = (match, match_type) => {
         // this occurs when a result gets posted so we want to update the
@@ -173,10 +194,8 @@ class Tournament extends Component {
         }, 0);
 
         if (result_count === matches.length) {
-
             this.advanceRound(round_type);
         }
-
     }
 
     advanceRound(round_type) {

@@ -24,17 +24,17 @@ class Final extends Component {
     handleResult = (match) => this.props.onResult(match, this.props.finalType);
 
     render() {
-        const { finalType } = this.props;
+        const { authed, finalType, teams, matches } = this.props;
 
         return (
             <Container>
                 <Divider section />
                 <Header as="h2">{ final_names[finalType]}</Header>
-                <Fixture teams={ this.props.teams}
-                    matches={this.props.matches}
+                <Fixture teams={ teams }
+                    matches={ matches }
                     finalType={finalType}
                     onResult={ this.handleResult }
-                    authed={ this.props.authed }
+                    authed={ authed }
                 />
             </Container>
         )
@@ -44,6 +44,7 @@ class Final extends Component {
 class Finals extends Component {
 
     handleResult = (match, finalType) => this.props.onResult(match, finalType);
+
 
     render() {
 

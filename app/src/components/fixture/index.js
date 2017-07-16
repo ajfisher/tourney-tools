@@ -21,8 +21,6 @@ class Fixture extends Component {
     // handler in the object, which will allow a call later.
     handle_win_result = (result) => {
 
-        // TODO - make call to the API to update the data
-
         let matches = this.state.matches;
         let index = _.findIndex(matches, {'id': result.match_id});
         let match = matches[index];
@@ -54,6 +52,13 @@ class Fixture extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.teams !== this.props.teams) {
+            this.setState({
+                matches: nextProps.matches,
+            });
+        }
+
+        // we do this to ensure the matches update properly
+        if (nextProps.matches !== this.props.matches) {
             this.setState({
                 matches: nextProps.matches,
             });
