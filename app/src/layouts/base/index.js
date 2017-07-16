@@ -5,8 +5,6 @@ import { Button, Container, Menu } from 'semantic-ui-react';
 import CreateTournament from '../../layouts/createTournament/';
 import Tournament from '../../layouts/tournament/';
 
-const About = () => (<div><h2>About</h2></div>);
-
 class Home extends Component {
     render() {
         return (
@@ -32,21 +30,24 @@ class Base extends Component {
                 <header className="app-header">
                     <Menu stackable>
                         <Menu.Item name="Home" href="/" active={activeItem === 'home'} />
-                        <Menu.Item name="About" href="/about" />
 
-                        <Menu.Menu position="right">
-                            <Menu.Item>
-                                <Button primary href="/tournament/create">
-                                    Create Tournament
-                                </Button>
-                            </Menu.Item>
-                        </Menu.Menu>
+                        <Switch>
+                            <Route exact path="/tournament/create"/>
+                            <Route>
+                                <Menu.Menu position="right">
+                                    <Menu.Item>
+                                        <Button primary href="/tournament/create">
+                                            Create Tournament
+                                        </Button>
+                                    </Menu.Item>
+                                </Menu.Menu>
+                            </Route>
+                        </Switch>
                     </Menu>
 
                 </header>
                 <Switch>
                     <Route exact path="/" component={Home} />
-                    <Route path="/about" component={About} />
                     <Route exact path="/tournament/create" component={CreateTournament} />
                     <Route path="/tournament/:id" component={Tournament} />
                     <Route path="/tournament/:id/*" component={Tournament} />
