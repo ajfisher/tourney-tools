@@ -11,7 +11,7 @@ class Home extends Component {
 
     render() {
         return (
-            <Container text className="homecontent">
+            <Container text className="homecontent" as="section">
                 <h1>Manage your tournament</h1>
                 <p>Sick of chasing pieces of paper with results scrawled on them
                 or managing complex Excel spreadsheets just to work out who
@@ -29,7 +29,6 @@ class Home extends Component {
                     content="Create a tournament now"
                     onClick={ this.create_tournament }
                 />
-
             </Container>
         );
     }

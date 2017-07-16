@@ -1,3 +1,22 @@
 /*******************************
          Site Overrides
 *******************************/
+
+
+/** These are used across the entire site **/
+
+main {
+    padding-bottom: 3rem;
+}
+
+main > section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background: white;
+    padding: 0.5rem;
+}

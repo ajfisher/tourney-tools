@@ -19,7 +19,7 @@ class Base extends Component {
         return (
             <main>
                 <header className="app-header">
-                    <Menu stackable>
+                    <Menu>
                         <Menu.Item name="Home" href="/" active={activeItem === 'home'} />
 
                         <Switch>

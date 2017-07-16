@@ -8,12 +8,41 @@ class CreateTournament extends Component {
     constructor(props) {
         super(props);
 
+        let viewport_width = "small";
+
+        if (window.innerWidth > 1000) {
+            viewport_width = "wide";
+        } else if (window.innerWidth > 480) {
+            viewport_width = "medium";
+        }
         // use mode to determine if we're in `create` or `review` mode
         // to route appropriate response.
         this.state = {
             mode: 'create',
             loading: false,
+            viewport_width: viewport_width,
         };
+    }
+
+
+    handleResize = (e) => {
+        let viewport_width = "small";
+
+        if (window.innerWidth > 1000) {
+            viewport_width = "wide";
+        } else if (window.innerWidth > 480) {
+            viewport_width = "medium";
+        }
+
+        this.setState({	viewport_width: viewport_width });
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.handleResize)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize)
     }
 
     view_tournament = e => {
@@ -88,15 +117,17 @@ class CreateTournament extends Component {
 
         if (mode === 'create') {
 
-            return (
-                <Container className="create">
-                    <Header as="h1">Create a new tournament</Header>
+            let formsize = ( this.state.viewport_width === "small") ? "large" : "huge";
 
-                    <Form size="huge" onSubmit={ this.handle_submit }>
+            return (
+                <Container className="create" as="section" text>
+                    <Header as="h1">Create a new tournament { this.state.viewport_width }</Header>
+
+                    <Form size={ formsize } onSubmit={ this.handle_submit }>
                         <p>To create a new tournament, please fill in the details
                         below. All fields are required</p>
 
-                        <Form.Field width="10">
+                        <Form.Field>
                             <Input label="Event name" name="name"
                                 ref="name"
                                 placeholder="What is the name of your tournament / event?"
@@ -104,16 +135,16 @@ class CreateTournament extends Component {
 
                             </Input>
                         </Form.Field>
-                        <Form.Field width="10">
+                        <Form.Field>
                             <Input label="Your name" name="official" ref="official"
                                 placeholder="Your name or the name of the organiser?"
                                 type="text" />
                         </Form.Field>
-                        <Form.Field width="6">
+                        <Form.Field>
                             <Input label="Date" name="date" ref="date"
                                 type="date" />
                         </Form.Field>
-                        <Form.Field width="4">
+                        <Form.Field>
                             <Input label="Teams" placeholder="#" type="number"
                                 name="no_team" ref="no_teams"/>
                         </Form.Field>
@@ -129,7 +160,7 @@ class CreateTournament extends Component {
             const {host, protocol } = window.location;
 
             return (
-                <Container className="review">
+                <Container className="review" as="section">
                     <Header as="h1">Your tournament has been created</Header>
                     <p>The tournament has been made and now you are ready to
                     start customising the teams and running the matches.</p>
