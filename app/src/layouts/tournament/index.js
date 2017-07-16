@@ -138,14 +138,32 @@ class Tournament extends Component {
 
     handleTeamChange = (team) => {
         // update the state with the change of the team data
-        let teams = this.state.teams;
-        let teamindex = _.findIndex(teams, {id: team.id});
-        teams[teamindex] = team;
+        let request = new Request("/api/team/" + team.id,
+            {
+                method: 'PUT',
+                headers: new Headers({
+                    'X-Tournament-Secret': this.state.sk,
+                }),
+                body: JSON.stringify(team),
+            });
 
-        this.setState({teams: teams});
+        fetch(request).then((res) => {
+            //console.log(res);
+            if (! res.ok) {
+                throw new Error(res.json());
+            } else {
+                return res.json();
+            }
+        }).then((t) => {
+            let teams = this.state.teams;
+            let teamindex = _.findIndex(teams, {id: t.id});
+            teams[teamindex] = t;
 
-        //save_state(this.state.id, this.state);
-        //TODO CALL API to update here.
+            this.setState({teams: teams});
+
+        }).catch((err) => {
+            console.log("Couldn't update team", err);
+        });
     }
 
     checkRoundComplete(matches, round_type) {

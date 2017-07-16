@@ -93,3 +93,10 @@ functions:
       - http:
           path: match/{id}
           method: put
+
+  teamUpdate:
+    handler: handlers/team.put
+    events:
+      - http:
+          path: team/{id}
+          method: put

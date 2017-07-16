@@ -64,7 +64,6 @@ module.exports.put = (event, context, callback) => {
     let result = {};
 
     let body = JSON.parse(event.body);
-    console.log(event.body);
 
     // check if we even got an ID sent through.
     if (typeof(event.pathParameters['id']) === 'undefined') {
