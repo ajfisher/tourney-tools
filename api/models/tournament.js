@@ -9,8 +9,9 @@ dynamoose.AWS.config.update(app_config.aws);
 
 const Schema = dynamoose.Schema;
 
-if (process.env.DDB_LOCAL === 'true') {
+if (process.env.DDB_REMOTE !== true) {
     dynamoose.local(app_config.aws.db);
+    console.log(app_config);
 }
 
 const options = {

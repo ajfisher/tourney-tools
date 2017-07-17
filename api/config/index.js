@@ -21,8 +21,8 @@ if (process.env.AWS_PROFILE) {
 aws_creds.region = process.env.AWS_REGION || 'ap-southeast-2';
 aws_creds.db = 'http://localhost:8001';
 
-if (process.env.DDB_LOCAL === 'true') {
-    console.log("Local DB env Variable is set");
+if (process.env.DDB_REMOTE !== true) {
+    console.log("Using LOCAL DDB");
 }
 
 module.exports = {

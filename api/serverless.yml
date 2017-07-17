@@ -25,6 +25,7 @@ provider:
   profile: ${self:custom.profiles.${self:provider.stage}}
   environment:
     DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DDB_LOCAL: ${opt:remoteddb, self:custom.offline}
   iamRoleStatement:
     - Effect: Allow
       Action:
