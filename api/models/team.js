@@ -1,10 +1,10 @@
 'use strict';
 
+const dynamoose = require('dynamoose');
 const shortid = require('shortid');
 
 const app_config = require('../config');
 
-const dynamoose = require('dynamoose');
 dynamoose.AWS.config.update(app_config.aws);
 
 const Schema = dynamoose.Schema;

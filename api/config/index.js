@@ -8,9 +8,17 @@ let aws_creds = {};
 let create = false;
 
 if (process.env.DDB_REMOTE) {
-    let credentials = new AWS.SharedIniFileCredentials({profile: process.env.AWS_PROFILE});
-    AWS.config.credentials = credentials;
-    aws_creds = AWS.config;
+
+    console.log("Working out creds");
+    console.log(process.env);
+    if (process.env.LAMBDA_TASK_ROOT) {
+        aws_creds = AWS.config;
+        console.log(aws_creds);
+    } else {
+        let credentials = new AWS.SharedIniFileCredentials({profile: process.env.AWS_PROFILE});
+        AWS.config.credentials = credentials;
+        aws_creds = AWS.config;
+    }
 
     if (process.env.DDB_CREATE) {
         console.log("Remote tables creatable");

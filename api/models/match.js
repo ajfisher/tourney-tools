@@ -1,7 +1,6 @@
 'use strict';
-
-const dynamoose = require('dynamoose');
 const uuid = require('uuid/v4');
+const dynamoose = require('dynamoose');
 
 const app_config = require('../config');
 
