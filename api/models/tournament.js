@@ -13,9 +13,8 @@ if (! process.env.DDB_REMOTE) {
     dynamoose.local(app_config.aws.db);
 }
 
-
 const options = {
-    create: true,
+    create: app_config.create,
     udpate: true,
     timestamps: true,
     useDocumentTypes: true,

@@ -5,10 +5,18 @@ const AWS = require('aws-sdk');
 
 let aws_creds = {};
 
+let create = false;
+
 if (process.env.DDB_REMOTE) {
     let credentials = new AWS.SharedIniFileCredentials({profile: process.env.AWS_PROFILE});
     AWS.config.credentials = credentials;
     aws_creds = AWS.config;
+
+    if (process.env.DDB_CREATE) {
+        console.log("Remote tables creatable");
+        create = true;
+    }
+
 } else {
 
     aws_creds = {
@@ -16,6 +24,7 @@ if (process.env.DDB_REMOTE) {
         secretAccessKey: process.env.AWS_SECRET || 'SECRET',
     };
     console.log("Using LOCAL DDB");
+    create = true;
 }
 
 aws_creds.region = process.env.AWS_REGION || 'ap-southeast-2';
@@ -23,4 +32,5 @@ aws_creds.db = 'http://localhost:8001';
 
 module.exports = {
     aws: aws_creds,
+    create: create,
 };

@@ -14,7 +14,7 @@ if (! process.env.DDB_REMOTE) {
 }
 
 const options = {
-    create: true,
+    create: app_config.create,
     udpate: true,
     timestamps: true,
 };
