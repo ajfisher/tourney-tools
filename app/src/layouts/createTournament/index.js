@@ -2,6 +2,9 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { Button, Container, Dimmer, Form, Header, Input, Loader} from 'semantic-ui-react';
 
+//const api_root = "https://c4ekmno7s8.execute-api.ap-southeast-2.amazonaws.com/dev";
+const api_root = "/api";
+
 class CreateTournament extends Component {
     // sets up the create Tournament Form.
 
@@ -81,7 +84,7 @@ class CreateTournament extends Component {
                 body: JSON.stringify(new_tournament),
             }
 
-            const url = "/api/tournament/";
+            const url = api_root + "/tournament/";
 
             let request = new Request(url, options);
 

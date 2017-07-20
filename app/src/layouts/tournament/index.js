@@ -11,6 +11,7 @@ import { final_rounds } from '../../components/finals';
 import Preliminary from '../../components/prelim';
 import TeamList from '../../components/teamlist';
 
+const api_root = "/api";
 
 class Tournament extends Component {
     // sets up the Tournament layout
@@ -40,7 +41,7 @@ class Tournament extends Component {
             }),
         }
 
-        const url = "/api/tournament/" + id;
+        const url = api_root + "/tournament/" + id + "/";
 
         let request = new Request(url, options);
         // get the tournament data from the server
@@ -75,7 +76,7 @@ class Tournament extends Component {
         const { id } = tournament;
 
         // now we know we have a tournament, get the pool matches
-        fetch("/api/tournament/" + id + "/matches").then((res) => {
+        fetch(api_root + "/tournament/" + id + "/matches").then((res) => {
             if (! res.ok) {
                 throw new Error(res.json());
             } else {
@@ -114,7 +115,7 @@ class Tournament extends Component {
         // this occurs when a result gets posted so we want to update the
         // results of the matches.
 
-        let request = new Request("/api/match/" + match.id,
+        let request = new Request(api_root + "/match/" + match.id,
             {
                 method: 'PUT',
                 headers: new Headers({
@@ -159,7 +160,7 @@ class Tournament extends Component {
 
     handleTeamChange = (team) => {
         // update the state with the change of the team data
-        let request = new Request("/api/team/" + team.id,
+        let request = new Request(api_root + "/team/" + team.id,
             {
                 method: 'PUT',
                 headers: new Headers({
@@ -342,7 +343,7 @@ class Tournament extends Component {
         // information to the server to process and store.
 
         const { id } = this.state;
-        const url = "/api/tournament/" + id + "/rounds/" + round;
+        const url = api_root + "/tournament/" + id + "/rounds/" + round;
 
         const options = {
             method: 'PUT',

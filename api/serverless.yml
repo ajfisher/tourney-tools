@@ -42,6 +42,15 @@ plugins:
   - serverless-dynamodb-local
   - serverless-offline
 
+package:
+  exclude:
+    - node_modules/dynamodb-localhost/**
+    - node_modules/serverless/**
+    - node_modules/serverless-dynamodb-local/**
+    - node_modules/serverless-s3-local/**
+    - node_modules/serverless-offline/**
+
+
 custom:
   defaultStage: dev
   profiles:

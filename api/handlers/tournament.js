@@ -31,6 +31,9 @@ module.exports.post = (event, context, callback) => {
         response = {
             statusCode: 400,
             body: JSON.stringify({msg: "Please supply complete tournament object"}),
+            headers: {
+        		"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+      		},
         }
     } else {
         formdata = JSON.parse(event.body);
@@ -51,6 +54,9 @@ module.exports.post = (event, context, callback) => {
                 response = {
                     statusCode: 500,
                     body: JSON.stringify({msg: "Error creating tournament", error: err}),
+					headers: {
+						"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+					},
                 };
 
                 callback(null, response);
@@ -261,12 +267,18 @@ module.exports.post = (event, context, callback) => {
                     response = {
                         statusCode: 500,
                         body: JSON.stringify({msg: "error saving tournament", error: err}),
+						headers: {
+							"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+						},
                     };
                 } else {
                     // everything is made, let's hand back to the client
                     response = {
                         statusCode: 201,
                         body: JSON.stringify(tournament),
+						headers: {
+							"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+						},
                     };
                 }
                 callback(null, response);
@@ -287,6 +299,9 @@ module.exports.get = (event, context, callback) => {
         const response = {
             statusCode: 404,
             body: JSON.stringify({ msg: "Resource not found"}),
+            headers: {
+        		"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+      		},
         };
 
         callback(null, response);
@@ -308,6 +323,9 @@ module.exports.get = (event, context, callback) => {
             response =  {
                 statusCode: 404,
                 body: JSON.stringify({ msg: "Resource not found"}),
+				headers: {
+					"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+				},
             };
             callback(null, response);
 
@@ -331,6 +349,9 @@ module.exports.get = (event, context, callback) => {
                 response = {
                     statusCode: 200,
                     body: JSON.stringify(t),
+					headers: {
+						"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+					},
                 };
 
                 callback(null, response);
@@ -343,6 +364,9 @@ module.exports.get = (event, context, callback) => {
         const response = {
             statusCode: 404,
             body: JSON.stringify(err),
+            headers: {
+        		"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+      		},
         };
         callback(null, response);
     });
