@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import { Button, Container, Modal } from 'semantic-ui-react'
 
 import { TeamSwatch } from "../team";
@@ -12,7 +14,16 @@ class Result extends Component {
         };
     };
 
-    handle_open = (e) => this.setState({ open: true });
+    handle_open = (e) => {
+
+        ReactGA.event({
+            category: 'match',
+            action: 'Set Result',
+        });
+
+        this.setState({ open: true });
+
+    }
 
     handle_close = (e, data) => this.setState({ open: false });
 

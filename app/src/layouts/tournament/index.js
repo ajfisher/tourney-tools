@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import { parse } from 'qs';
 import React, { Component } from 'react';
+
 import { Container, Dimmer, Grid, Header, Loader, Statistic } from 'semantic-ui-react';
 
 // get custom components
@@ -18,6 +19,7 @@ class Tournament extends Component {
 
     constructor(props) {
         super(props);
+
         const id = props.match.params.id;
 
         const qs = parse(props.location.search.substr(1));

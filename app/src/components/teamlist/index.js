@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import { Modal, Table} from 'semantic-ui-react'
 
 import TeamDetails, { TeamSwatch } from '../team';
@@ -25,6 +27,13 @@ class TeamList extends Component {
         let {modals_open} = this.state;
         modals_open[team_index] = true;
         this.setState({modals_open: modals_open});
+
+        ReactGA.event({
+            category: 'team',
+            action: 'Viewed Team Details',
+            label: 'team:' + this.props.teams[team_index].id,
+        });
+
     };
 
     handle_close = (team_index) => () => {

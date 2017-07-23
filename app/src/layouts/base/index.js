@@ -16,6 +16,10 @@ class Base extends Component {
 
         const {activeItem} = this.state;
 
+        const ReactGA = this.props.analytics;
+
+        ReactGA.pageview(window.location.href);
+
         return (
             <main>
                 <header className="app-header">

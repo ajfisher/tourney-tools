@@ -9,7 +9,7 @@ class App extends Component {
 
         return (
                 <div className="app">
-                    <Base className="main" />
+                    <Base className="main" analytics={this.props.analytics} />
                 </div>
         );
     }

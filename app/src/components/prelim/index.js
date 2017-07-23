@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import {Container, Header, Menu } from 'semantic-ui-react'
 
 import Fixture from '../fixture';
@@ -88,9 +90,28 @@ class Preliminary extends Component {
         return standings;
     };
 
-    // handle the menu clicks between pools and the fixture / leaderboard panel
-    handlePanelClick = (e, { name }) => this.setState({active_panel: name });
-    handlePoolClick = (e, { id }) => this.setState({ active_pool: id });
+    // Handle changes between menu items
+    handlePanelClick = (e, { name }) => {
+
+        ReactGA.event({
+            category: 'prelim',
+            action: 'Change View',
+            label: name,
+        });
+
+        this.setState({active_panel: name });
+    }
+
+    //handle the changes between pools
+    handlePoolClick = (e, { id }) => {
+        ReactGA.event({
+            category: 'pool',
+            action: 'Change Pool',
+            label: id,
+        });
+
+        this.setState({ active_pool: id });
+    }
 
     // passes back to the tournament to update the result details
     handleResult = (match) => this.props.onResult(match, 'prelim');

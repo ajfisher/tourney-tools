@@ -154,6 +154,13 @@ class TeamDetails extends Component {
 
     switch_modes = (e) => {
         this.setState({ edit_mode: !this.state.edit_mode });
+
+        if (this.state.edit_mode === true) {
+            ReactGA.event({
+                category: 'team',
+                action: 'Edit Team',
+            });
+        }
     }
 
     add_member = () => {
@@ -161,6 +168,11 @@ class TeamDetails extends Component {
         let teamdata = this.state.team;
         teamdata.members.push("");
         this.setState({ team: teamdata });
+
+        ReactGA.event({
+            category: 'team',
+            action: 'Add Team Member',
+        });
     }
 
     mode_buttons(edit_mode) {
