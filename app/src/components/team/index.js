@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import { Button, Container, Grid, Header, Icon, Image, Input, List, Segment } from 'semantic-ui-react'
 
 import GeoPattern from 'geopattern';
