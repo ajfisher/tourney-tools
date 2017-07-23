@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+
 import { Button, Container, Dimmer, Form, Header, Input, Loader} from 'semantic-ui-react';
 
 //const api_root = "https://c4ekmno7s8.execute-api.ap-southeast-2.amazonaws.com/dev";
@@ -161,6 +163,8 @@ class CreateTournament extends Component {
         if (mode === 'review') {
             const { tournament } = this.state;
             const {host, protocol } = window.location;
+
+            ReactGA.pageview('/tournament/create/complete');
 
             return (
                 <Container className="review" as="section">
