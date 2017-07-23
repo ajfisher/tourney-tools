@@ -18,7 +18,7 @@ class Base extends Component {
 
         const ReactGA = this.props.analytics;
 
-        ReactGA.pageview(window.location.href);
+        ReactGA.pageview(window.location.pathname);
 
         return (
             <main>
