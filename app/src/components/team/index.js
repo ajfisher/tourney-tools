@@ -146,6 +146,11 @@ class TeamDetails extends Component {
 
         teamdata.members = _.pull(teamdata.members, '');
 
+        ReactGA.event({
+            category: 'team',
+            action: 'Updated Team Details',
+        });
+
         this.props.onSave(this.state.team);
     }
 
@@ -157,12 +162,10 @@ class TeamDetails extends Component {
     switch_modes = (e) => {
         this.setState({ edit_mode: !this.state.edit_mode });
 
-        if (this.state.edit_mode === true) {
-            ReactGA.event({
-                category: 'team',
-                action: 'Edit Team',
-            });
-        }
+        ReactGA.event({
+            category: 'team',
+            action: 'Edit Team',
+        });
     }
 
     add_member = () => {
