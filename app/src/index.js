@@ -7,6 +7,10 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import './semantic/build/semantic.min.css';
 
+function log_page_view() {
+    console.log("URL was changed");
+}
+
 ReactDOM.render(
     <Router>
         <App />
