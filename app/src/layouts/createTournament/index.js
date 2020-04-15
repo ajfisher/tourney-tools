@@ -5,7 +5,7 @@ import ReactGA from 'react-ga';
 import { Button, Container, Dimmer, Form, Header, Input, Loader} from 'semantic-ui-react';
 
 //const api_root = "https://c4ekmno7s8.execute-api.ap-southeast-2.amazonaws.com/dev";
-const api_root = "/api";
+const api_root = "/dev";
 
 class CreateTournament extends Component {
     // sets up the create Tournament Form.

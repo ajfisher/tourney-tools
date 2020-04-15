@@ -12,7 +12,7 @@ import { final_rounds } from '../../components/finals';
 import Preliminary from '../../components/prelim';
 import TeamList from '../../components/teamlist';
 
-const api_root = "/api";
+const api_root = "/dev";
 
 class Tournament extends Component {
     // sets up the Tournament layout
@@ -39,7 +39,7 @@ class Tournament extends Component {
         const options = {
             method: 'GET',
             headers: new Headers({
-                'X-Tournament-Secret': secret || '',
+                'x-tournament-secret': secret || '',
             }),
         }
 
@@ -121,7 +121,7 @@ class Tournament extends Component {
             {
                 method: 'PUT',
                 headers: new Headers({
-                    'X-Tournament-Secret': this.state.sk,
+                    'x-tournament-secret': this.state.sk,
                 }),
                 body: JSON.stringify(match),
             });
@@ -166,7 +166,7 @@ class Tournament extends Component {
             {
                 method: 'PUT',
                 headers: new Headers({
-                    'X-Tournament-Secret': this.state.sk,
+                    'x-tournament-secret': this.state.sk,
                 }),
                 body: JSON.stringify(team),
             });
@@ -350,7 +350,7 @@ class Tournament extends Component {
         const options = {
             method: 'PUT',
             headers: new Headers({
-                'X-Tournament-Secret': this.state.sk,
+                'x-tournament-secret': this.state.sk,
             }),
             body: JSON.stringify(new_round_details),
         }
