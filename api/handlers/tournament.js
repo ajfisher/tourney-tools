@@ -291,84 +291,86 @@ module.exports.post = (event, context, callback) => {
 
 module.exports.get = (event, context, callback) => {
 
-    let id = null;
-    let secret = null;
+  let id = null;
+  let secret = null;
 
-    // check if we even got an ID sent through.
-    if (typeof(event.pathParameters['id']) === 'undefined') {
-        const response = {
-            statusCode: 404,
-            body: JSON.stringify({ msg: "Resource not found"}),
-            headers: {
-        		"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
-      		},
-        };
+  // check if we even got an ID sent through.
+  if (typeof(event.pathParameters['id']) === 'undefined') {
+    const response = {
+      statusCode: 404,
+      body: JSON.stringify({ msg: "Resource not found"}),
+      headers: {
+        "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+      },
+    };
 
-        callback(null, response);
-    } else {
-        id = event.pathParameters.id;
-    }
+    callback(null, response);
+  } else {
+    id = event.pathParameters.id;
+  }
 
-    // check if we have a secret we're able to use which will determine auth
-    if (typeof(event.headers["X-Tournament-Secret"]) !== 'undefined') {
-        secret = event.headers["X-Tournament-Secret"];
-    }
+  // check if we have a secret we're able to use which will determine auth
+  if (typeof(event.headers["X-Tournament-Secret"]) !== 'undefined') {
+    secret = event.headers["X-Tournament-Secret"];
+  } else if (typeof(event.headers["x-tournament-secret"]) !== 'undefined') {
+    secret = event.headers["x-tournament-secret"];
+  }
 
-    Tournament.get({id: id})
+  Tournament.get({id: id})
     .then((t) => {
 
-        let response = {};
+      let response = {};
 
-        if (typeof(t) === 'undefined') {
-            response =  {
-                statusCode: 404,
-                body: JSON.stringify({ msg: "Resource not found"}),
-				headers: {
-					"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
-				},
-            };
-            callback(null, response);
-
-        } else {
-
-            if (secret && (t.secret === secret)) {
-                t.authed = true;
-            } else {
-                t.authed = false;
-            }
-
-            // remove the secret key from the message
-            t.secret = "";
-
-            // get the team data
-            Team.scan('tournament').eq(id).exec((err, teams) => {
-
-                if (! err) {
-                    t.teams = teams;
-                }
-                response = {
-                    statusCode: 200,
-                    body: JSON.stringify(t),
-					headers: {
-						"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
-					},
-                };
-
-                callback(null, response);
-            });
-        }
-    })
-    .catch((err) => {
-        console.log("no object, send back 404");
-        console.log(err);
-        const response = {
-            statusCode: 404,
-            body: JSON.stringify(err),
-            headers: {
-        		"Access-Control-Allow-Origin" : "*" // Required for CORS support to work
-      		},
+      if (typeof(t) === 'undefined') {
+        response =  {
+          statusCode: 404,
+          body: JSON.stringify({ msg: "Resource not found"}),
+          headers: {
+            "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+          },
         };
         callback(null, response);
+
+      } else {
+
+        if (secret && (t.secret === secret)) {
+          t.authed = true;
+        } else {
+          t.authed = false;
+        }
+
+        // remove the secret key from the message
+        t.secret = "";
+
+        // get the team data
+        Team.scan('tournament').eq(id).exec((err, teams) => {
+
+          if (! err) {
+            t.teams = teams;
+          }
+          response = {
+            statusCode: 200,
+            body: JSON.stringify(t),
+            headers: {
+              "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+            },
+          };
+
+          callback(null, response);
+        });
+      }
+    })
+    .catch((err) => {
+      console.log("no object, send back 404");
+      console.log(err);
+      const response = {
+        statusCode: 404,
+        body: JSON.stringify(err),
+        headers: {
+          "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+        },
+      };
+      callback(null, response);
     });
 };
 
