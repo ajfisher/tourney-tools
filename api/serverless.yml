@@ -19,7 +19,7 @@ service: tournament
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs12.x
   region: ap-southeast-2
   stage: ${opt:stage, self:custom.defaultStage}
   profile: ${self:custom.profiles.${self:provider.stage}}
