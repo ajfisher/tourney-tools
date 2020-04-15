@@ -1,2 +1,3 @@
 app/semantic
 server/media
+.terraform/
