@@ -10,7 +10,7 @@ let create = false;
 if (process.env.DDB_REMOTE) {
 
     console.log("Working out creds");
-    console.log(process.env);
+    // console.log(process.env);
     if (process.env.LAMBDA_TASK_ROOT) {
         aws_creds = AWS.config;
         console.log(aws_creds);
@@ -37,6 +37,8 @@ if (process.env.DDB_REMOTE) {
 
 aws_creds.region = process.env.AWS_REGION || 'ap-southeast-2';
 aws_creds.db = 'http://localhost:8001';
+
+// console.log(aws_creds);
 
 module.exports = {
     aws: aws_creds,
