@@ -13,7 +13,7 @@
     "async": "^2.5.0",
     "aws-sdk": "^2.82.0",
     "dynamoose": "^0.8.2",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "moment": "^2.18.1",
     "serverless": "^1.17.0",
     "shortid": "^2.2.8",
