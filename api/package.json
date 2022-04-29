@@ -10,7 +10,7 @@
   "author": "Andrew Fisher <ajfisher.td@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.4",
     "aws-sdk": "^2.82.0",
     "dynamoose": "^0.8.2",
     "lodash": "^4.17.21",
